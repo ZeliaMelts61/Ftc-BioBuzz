@@ -125,9 +125,9 @@ public class FusionMathFunctions {
      * @return returns the scaling factor for the variable Vector.
      */
     public static double findNormalizingScaling(Vector staticVector, Vector variableVector, double maxPowerScaling) {
-        double a = Math.pow(variableVector.getXComponent(), 2) + Math.pow(variableVector.getYComponent(), 2);
-        double b = staticVector.getXComponent() * variableVector.getXComponent() + staticVector.getYComponent() * variableVector.getYComponent();
-        double c = Math.pow(staticVector.getXComponent(), 2) + Math.pow(staticVector.getYComponent(), 2) - Math.pow(maxPowerScaling, 2);
+        double a = Math.pow(variableVector.get(0), 2) + Math.pow(variableVector.get(1), 2);
+        double b = staticVector.get(0) * variableVector.get(0) + staticVector.get(1) * variableVector.get(1);
+        double c = Math.pow(staticVector.get(0), 2) + Math.pow(staticVector.get(1), 2) - Math.pow(maxPowerScaling, 2);
         return (-b + Math.sqrt(Math.pow(b, 2) - a*c))/(a);
     }
 

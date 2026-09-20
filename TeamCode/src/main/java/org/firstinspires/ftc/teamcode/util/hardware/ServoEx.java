@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.util.hardware;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.robot.Constants;
+import org.firstinspires.ftc.teamcode.RobotConstants;
 
 public class ServoEx {
     private final Servo servo;
-    private double cachingTolerance = Constants.SERVO_CACHING_TOLERANCE;
+    private double cachingTolerance = RobotConstants.Hardware.SERVO_CACHING_TOLERANCE;
     private double lastPosition = Double.NaN;
 
     public ServoEx(HardwareMap hardwareMap, String name) {

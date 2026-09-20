@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.util;
 
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
-import com.pedropathing.util.Timer;
+import com.pedropathing.utils.Timer;
 
 
 public class AnglePID {
@@ -28,11 +28,11 @@ public class AnglePID {
     public double getDT() {
         if (!this.hasRun) {
             this.hasRun = true;
-            this.timer.resetTimer();
+            this.timer.reset();
         }
 
-        double dt = this.timer.getElapsedTime();
-        this.timer.resetTimer();
+        double dt = this.timer.milliseconds();
+        this.timer.reset();
         return dt;
     }
 

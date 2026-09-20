@@ -4,8 +4,7 @@ import com.pedropathing.math.Vector;
 
 public class Vector2D extends Vector {
     public Vector2D(double x, double y) {
-        super();
-        setOrthogonalComponents(x, y);
+        super(x,y);
     }
 
     public double distSquared(Vector2D other) {
@@ -18,17 +17,15 @@ public class Vector2D extends Vector {
     }
 
     public double getX() {
-        return getXComponent();
+        return get(0);
     }
 
     public double getY() {
-        return getYComponent();
+        return get(1);
     }
 
     public Vector rotate(double theta) {
-        Vector vector = this.copy();
-        vector.rotateVector(theta);
-        return vector;
+        return rotate(theta);
     }
 }
 

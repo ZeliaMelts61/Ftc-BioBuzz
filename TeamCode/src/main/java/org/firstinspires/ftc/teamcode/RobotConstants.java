@@ -46,4 +46,15 @@ public class RobotConstants {
     public static class DriverConstants{
 
     }
+
+    public static class  Hardware {
+        // thresholds for caching wrappers
+        public static double MOTOR_CACHING_TOLERANCE = 0.05;
+        public static double CRSERVO_CACHING_TOLERANCE = 0.05;
+        public static double SERVO_CACHING_TOLERANCE = 0.01;
+
+        public static double PROXIMITY_POLL_MS = 100.0;
+        public static double PROXIMITY_POLL_MS_FULL = 300.0;
+        public static double TELEMETRY_UPDATE_MS = 125.0;
+    }
 }

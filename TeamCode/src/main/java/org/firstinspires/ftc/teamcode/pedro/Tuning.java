@@ -1,5 +1,16 @@
 package org.firstinspires.ftc.teamcode.pedro;
 
+import com.pedropathing.algorithm.Foresight;
+import com.pedropathing.revhub.drivetrains.Mecanum;
+import com.pedropathing.revhub.localizers.PinpointLocalizer;
+import com.pedropathing.tuning.autotune.Procedure;
+import com.pedropathing.tuning.autotune.Tuner;
+
+import org.firstinspires.ftc.teamcode.pedro.procedures.ForesightTuner;
+import org.firstinspires.ftc.teamcode.pedro.procedures.MecanumTuner;
+import org.firstinspires.ftc.teamcode.pedro.procedures.PinpointTuner;
+import org.firstinspires.ftc.teamcode.pedro.procedures.Tests;
+
 public class Tuning {
     @Tuner
     public static Procedure mecanumTuner() {
@@ -27,7 +38,7 @@ public class Tuning {
     }
 
     @Tuner
-    public static Procedure tests() {
+    public static Procedure testsFull() {
         // Runs the tests of everything
         // https://pedropathing.com/docs/pathing/tuning/test#add-the-tests-procedure
         return new Tests(hardwareMap -> new Mecanum(hardwareMap, Constants.drivetrainConfig), (hardwareMap -> new PinpointLocalizer(hardwareMap, Constants.localizerConfig)), () -> new Foresight(Constants.foresightConfig));

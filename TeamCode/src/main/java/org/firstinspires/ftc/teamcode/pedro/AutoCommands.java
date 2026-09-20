@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedro;
 
 import static com.pedropathing.api.Paths.line;
+import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
@@ -28,7 +29,7 @@ public class AutoCommands {
     }
     public static class ScoringCommands {
         public static Command shootPollen() {
-            return new Command(); // ill figure that out later
+            return instant(()->{}); // ill figure that out later
         }
     }
 

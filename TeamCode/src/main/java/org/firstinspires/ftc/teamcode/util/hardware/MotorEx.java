@@ -1,16 +1,18 @@
 package org.firstinspires.ftc.teamcode.util.hardware;
 
+import static org.firstinspires.ftc.teamcode.RobotConstants.Hardware.MOTOR_CACHING_TOLERANCE;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.robot.Constants;
+import org.firstinspires.ftc.teamcode.RobotConstants.Hardware.*;
 
 public class MotorEx {
     private final DcMotorEx motor;
-    private double cachingTolerance = Constants.MOTOR_CACHING_TOLERANCE;
+    private double cachingTolerance = MOTOR_CACHING_TOLERANCE;
     private double lastPower = Double.NaN;
 
     public MotorEx(HardwareMap hardwareMap, String name) {
