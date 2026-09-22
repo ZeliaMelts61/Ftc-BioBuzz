@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static com.pedropathing.ivy.commands.Commands.instant;
+
 import androidx.core.math.MathUtils;
 
 import com.pedropathing.ivy.Command;
@@ -13,51 +15,59 @@ import org.firstinspires.ftc.teamcode.util.hardware.CRServoEx;
 import org.firstinspires.ftc.teamcode.util.hardware.MotorEx;
 import org.firstinspires.ftc.teamcode.util.hardware.ServoEx;
 
-public class Intake {
-    MotorEx intakeRoller;
-    CRServoEx leftServo;
-    CRServoEx rightServo;
-    public Intake(HardwareMap hardwareMap){
-        intakeRoller = new MotorEx(hardwareMap, IntakeConstants.intakeRollerName);
+import dev.nextftc.hardware.actuators.NextCRServo;
+import dev.nextftc.hardware.actuators.NextMotor;
+import dev.nextftc.robot.Mechanism;
+
+public class Intake implements Mechanism {
+    NextMotor intakeRoller;
+    NextCRServo leftServo;
+    NextCRServo rightServo;
+    public Intake(){
+        intakeRoller = new NextMotor(IntakeConstants.intakeRollerName);
         intakeRoller.setDirection(IntakeConstants.intakeRollerDirection);
         intakeRoller.setZeroPowerBehavior(IntakeConstants.IntakeRollerZeroPowerBehavior);
 
-        leftServo = new CRServoEx(hardwareMap, IntakeConstants.intakeLeftServoName);
+        leftServo = new NextCRServo(IntakeConstants.intakeLeftServoName);
         leftServo.setDirection(IntakeConstants.intakeLeftServoDirection);
 
-        rightServo = new CRServoEx(hardwareMap, IntakeConstants.intakeRightServoName);
+        rightServo = new NextCRServo(IntakeConstants.intakeRightServoName);
         rightServo.setDirection(IntakeConstants.intakeRightServoDirection);
+
+        intakeRoller.setThrottle(0);
+        leftServo.setPower(0);
+        rightServo.setPower(0);
     }
 
-    public void setRollerPower(double power){
-        intakeRoller.setPower(MathUtils.clamp(power,-1.0,1.0));
+    public void setRollerThrottle(double power){
+        intakeRoller.setThrottle(MathUtils.clamp(power,-1.0,1.0));
     }
 
-    public void setLeftServoPower(double power){
+    public void setLeftServoThrottle(double power){
         double clamped = MathUtils.clamp(power,-1.0,1.0);
         leftServo.setPower(clamped);
     }
 
-    public void setRightServoPower(double power){
+    public void setRightServoThrottle(double power){
         double clamped = MathUtils.clamp(power,-1.0,1.0);
         rightServo.setPower(clamped);
     }
 
-    public void setServoPower(double power){
+    public void setServoThrottle(double power){
         double clamped = MathUtils.clamp(power,-1.0,1.0);
         leftServo.setPower(clamped);
         rightServo.setPower(clamped);
     }
 
-    public void setAllPower(double power){
+    public void setAllThrottle(double power){
         double clamped = MathUtils.clamp(power,-1.0,1.0);
-        intakeRoller.setPower(clamped);
+        intakeRoller.setThrottle(clamped);
         leftServo.setPower(clamped);
         rightServo.setPower(clamped);
     }
 
     public void stopRoller(){
-        intakeRoller.setPower(0);
+        intakeRoller.setThrottle(0);
     }
 
     public void stopServo(){
@@ -71,29 +81,48 @@ public class Intake {
     }
 
     public void intake(){
-        setAllPower(1);
+        setAllThrottle(1);
     }
 
     public void outtake(){
-        setAllPower(-1);
+        setAllThrottle(-1);
     }
 
-    public double getRollerPower(){
-        return intakeRoller.getPower();
+    public double getRollerThrottle(){
+        return intakeRoller.getThrottle();
     }
 
-    public double getLeftServoPower(){
+    public double getLeftServoThrottle(){
         return leftServo.getPower();
     }
 
-    public double getRightServoPower(){
+    public double getRightServoThrottle(){
         return rightServo.getPower();
     }
 
+    public Command setIntakeThrottleCommand(double power) {
+        return instant(() -> this.setAllThrottle(power));
+    }
+
+    public Command intakeCommand(){
+        return setIntakeThrottleCommand(1);
+    }
+
+    public Command outtakeCommand(){
+        return setIntakeThrottleCommand(-1);
+    }
+
+    public Command stopIntakeCommand(){
+        return instant(this::stop);
+    }
+
+    @Override
+    public void periodic() {}
+
 //    public void updateTelemetry(Telemetry telemetry){
-//        telemetry.addData("Intake Roller Power", getRollerPower());
-//        telemetry.addData("Intake Left Servo Power", getLeftServoPower());
-//        telemetry.addData("Intake Right Servo Power", getRightServoPower());
+//        telemetry.addData("Intake Roller Throttle", getRollerThrottle());
+//        telemetry.addData("Intake Left Servo Throttle", getLeftServoThrottle());
+//        telemetry.addData("Intake Right Servo Throttle", getRightServoThrottle());
 //    }
 
 }
