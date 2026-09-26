@@ -5,15 +5,10 @@ import static dev.nextftc.units.Units.RotationsPerMinute;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
-import java.lang.reflect.Field;
 
 import dev.nextftc.hardware.actuators.NextMotor;
 import dev.nextftc.units.measuretypes.Angle;
 import dev.nextftc.units.measuretypes.AngularVelocity;
-import dev.nextftc.units.unittypes.AngleUnit;
 
 public class RobotConstants {
 
@@ -98,7 +93,7 @@ public class RobotConstants {
 
     public static class MatchConstants{
         public enum ALLIANCE_COLOR{
-            Red,
+            RED,
             BLUE,
             NONE
         }

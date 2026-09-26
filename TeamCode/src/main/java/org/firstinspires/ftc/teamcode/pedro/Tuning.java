@@ -1,53 +1,29 @@
 package org.firstinspires.ftc.teamcode.pedro;
 
-import com.pedropathing.algorithm.Foresight;
 import com.pedropathing.revhub.drivetrains.Mecanum;
-import com.pedropathing.revhub.localizers.PinpointLocalizer;
+import com.pedropathing.revhub.localizers.OctoQuadLocalizer;
 import com.pedropathing.tuning.autotune.Procedure;
 import com.pedropathing.tuning.autotune.Tuner;
 
+import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.pedro.procedures.ForesightTuner;
 import org.firstinspires.ftc.teamcode.pedro.procedures.MecanumTuner;
-import org.firstinspires.ftc.teamcode.pedro.procedures.PinpointTuner;
-import org.firstinspires.ftc.teamcode.pedro.procedures.Tests;
+import org.firstinspires.ftc.teamcode.pedro.procedures.OctoQuadTuner;
 
 public class Tuning {
+
     @Tuner
-    public static Procedure mecanumTuner() {
+    public static Procedure mecanumTuner(){
         return new MecanumTuner();
     }
+
     @Tuner
-    public static Procedure tests() {
-        // to test to see if everything got setup right
-        // https://pedropathing.com/docs/pathing/tuning/test
-        return new Tests(hardwareMap -> new Mecanum(hardwareMap, Constants.drivetrainConfig), null, null);
+    public static Procedure octoquadTuner() {
+        return new OctoQuadTuner();
     }
 
     @Tuner
-    public static Procedure pinpointTuner() {
-        // to tune the gobuilda pinpoint odometry hardware
-        // https://pedropathing.com/docs/pathing/tuning/localization/pinpoint#add-the-tuner
-        return new PinpointTuner();
-    }
-
-    @Tuner
-    public static Procedure testLocalizer() { // I renamed this class
-        // This tests the localizer
-        // https://pedropathing.com/docs/pathing/tuning/test
-        return new Tests(hardwareMap -> new Mecanum(hardwareMap, Constants.drivetrainConfig), (hardwareMap -> new PinpointLocalizer(hardwareMap, Constants.localizerConfig)), null);
-    }
-
-    @Tuner
-    public static Procedure testsFull() {
-        // Runs the tests of everything
-        // https://pedropathing.com/docs/pathing/tuning/test#add-the-tests-procedure
-        return new Tests(hardwareMap -> new Mecanum(hardwareMap, Constants.drivetrainConfig), (hardwareMap -> new PinpointLocalizer(hardwareMap, Constants.localizerConfig)), () -> new Foresight(Constants.foresightConfig));
-    }
-
-    @Tuner
-    public static Procedure foresightTuner() {
-        // The Foresight AutoTuner can automatically determine your ForesightConfig, which includes max achievable velocities, brake coefficients, and kP values.
-        // https://pedropathing.com/docs/pathing/tuning/foresight#automatic-tuning
-        return new ForesightTuner((hardwareMap) -> new PinpointLocalizer(hardwareMap, Constants.localizerConfig), (hardwareMap) -> new Mecanum(hardwareMap, Constants.drivetrainConfig));
+    public static Procedure foresightTuner(){
+        return new ForesightTuner((hardwareMap) -> new OctoQuadLocalizer(hardwareMap, org.firstinspires.ftc.teamcode.pedro.Constants.octoQuadConfig), (hardwareMap -> new Mecanum(hardwareMap, Constants.driveConfig)));
     }
 }
