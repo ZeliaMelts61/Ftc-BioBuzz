@@ -3,13 +3,8 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import static com.pedropathing.ivy.commands.Commands.instant;
 
-import static dev.nextftc.units.Units.RotationsPerMinute;
-
-import com.pedropathing.follower.Follower;
 import com.pedropathing.ivy.Scheduler;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
 
 
@@ -21,7 +16,6 @@ import dev.nextftc.robot.triggers.Trigger;
 @NextTeleop(name = "Teleop")
 public class Teleop extends NextOpMode {
     private final ZeliaRobot robot;
-    private final Follower follower = Constants.create(hardwareMap);
 
 
 
@@ -41,7 +35,7 @@ public class Teleop extends NextOpMode {
         CommandGamepad gp2 = new CommandGamepad(gamepad2);
 
 
-        robot.init(follower);
+        robot.init(); // MUST CALL BEFORE RUNNING STUFF
         robot.startDrive(gamepad1);
 
 
@@ -63,7 +57,7 @@ public class Teleop extends NextOpMode {
         gp1.start().onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
 
         // The UH-OH something got stuck.™ Rotates everything backward while the back button is being held
-        gp1.back().whileTrue(robot.runEverythingBackwards());
+        gp1.back().whileTrue(robot.runEverythingReverse());
 
         // Runs the intake backward while D-pad down is held
         gp1.dpadDown()
