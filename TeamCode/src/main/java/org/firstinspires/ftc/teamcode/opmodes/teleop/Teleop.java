@@ -17,13 +17,9 @@ import dev.nextftc.robot.triggers.Trigger;
 public class Teleop extends NextOpMode {
     private final ZeliaRobot robot;
 
-
-
-
     public Teleop(ZeliaRobot robot) {
         super(robot);
         this.robot = robot;
-
         Scheduler.reset();
     }
 

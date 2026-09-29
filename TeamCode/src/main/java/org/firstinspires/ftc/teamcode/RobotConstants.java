@@ -99,16 +99,6 @@ public class RobotConstants {
      * Example: The Poses of the hives
      */
     public static class MatchConstants{
-        public enum ALLIANCE_COLOR{
-            RED,
-            BLUE,
-            NONE
-        }
-        public static ALLIANCE_COLOR allianceColor = ALLIANCE_COLOR.NONE;
-        public static void setAllianceColor(ALLIANCE_COLOR allianceColor) {
-            MatchConstants.allianceColor = allianceColor;
-        }
-
         private static final PoseFactory poseFactory = PoseFactory.degrees();
 
         // You may add as many shoot poses as you want as long as you update the shoot poses arrays below

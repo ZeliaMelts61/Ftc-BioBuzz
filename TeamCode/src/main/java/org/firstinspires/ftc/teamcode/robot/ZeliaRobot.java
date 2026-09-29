@@ -17,10 +17,10 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RobotConstants;
-import org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.*;
 import org.firstinspires.ftc.teamcode.mechanisms.*;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
+import org.firstinspires.ftc.teamcode.data.Alliance;
 import dev.nextftc.robot.Mechanism;
 import dev.nextftc.robot.NextRobot;
 import dev.nextftc.robot.Telemetry;
@@ -45,7 +45,7 @@ public class ZeliaRobot implements NextRobot {
     private final Windmill windmill = new Windmill();
     private final Drivetrain drivetrain = new Drivetrain();
 
-    private ALLIANCE_COLOR alliance = ALLIANCE_COLOR.NONE;
+    private Alliance alliance = Alliance.NONE;
 
     /** NextRobot requires an empty constructor to be able to automatically create this class. */
     public ZeliaRobot(){}
@@ -84,17 +84,17 @@ public class ZeliaRobot implements NextRobot {
 
     /**
      * Sets the Alliance color
-     * @param alliance The ALLIANCE_COLOR that the robot is currently a part of.
+     * @param alliance The Alliance that the robot is currently a part of.
      */
-    public void setAlliance(ALLIANCE_COLOR alliance){
+    public void setAlliance(Alliance alliance){
         this.alliance = alliance;
     }
 
     /**
      * Gets the Alliance color
-     * @return The ALLIANCE_COLOR that the robot is currently a part of.
+     * @return The Alliance that the robot is currently a part of.
      */
-    public ALLIANCE_COLOR getAlliance(){
+    public Alliance getAlliance(){
         return alliance;
     }
 
@@ -202,7 +202,7 @@ public class ZeliaRobot implements NextRobot {
         return parallel(
                 windmill.stopCommand(),
                 intake.setIntakeThrottleCommand(0.5),
-                flywheel.setVelocityFromDistanceCommand(drivetrain.distanceToHive()),
+                flywheel.setVelocityFromDistanceCommand(drivetrain.distanceToHive(alliance)),
                 flywheel.activateCommand());
 
     }
@@ -217,7 +217,7 @@ public class ZeliaRobot implements NextRobot {
      */
     public Command runShoot(){
         return infinite(()->{
-            flywheel.setVelocityFromDistance(drivetrain.distanceToHive());
+            flywheel.setVelocityFromDistance(drivetrain.distanceToHive(alliance));
 
             if(flywheel.isReady()) {
                 windmill.forward();
@@ -229,7 +229,7 @@ public class ZeliaRobot implements NextRobot {
         }).requiring(flywheel,windmill,intake).setStart(()->{
             windmill.stop();
             intake.setAllThrottle(0.5);
-            flywheel.setVelocityFromDistance(drivetrain.distanceToHive());
+            flywheel.setVelocityFromDistance(drivetrain.distanceToHive(alliance));
             flywheel.activate();
         });
     }
@@ -255,8 +255,8 @@ public class ZeliaRobot implements NextRobot {
         return sequential(
                 setupShoot(),
                 race(
-                        drivetrain.pathToShootPoseCommand(),
-                        flywheel.setVelocityFromDistanceContinuousCommand(drivetrain::distanceToHive)),
+                        drivetrain.pathToShootPoseCommand(alliance),
+                        flywheel.setVelocityFromDistanceContinuousCommand(() -> drivetrain.distanceToHive(alliance))),
                 runShoot());
     }
 
@@ -285,7 +285,7 @@ public class ZeliaRobot implements NextRobot {
                         ()->driveGamepad.left_stick_x,
                         ()->driveGamepad.right_stick_x,
                         ()->{
-                            Pose hivePose = drivetrain.closestHivePose(follower.pose());
+                            Pose hivePose = drivetrain.closestHivePose(follower.pose(), alliance);
                             Pose robotPose = follower.pose();
                             double dy=hivePose.x() - robotPose.x();
                             double dx=hivePose.y() - robotPose.y();
@@ -295,6 +295,11 @@ public class ZeliaRobot implements NextRobot {
                 shoot()));
 
     }
+
+    public Command continuousFlywheelSpeedControl(){
+        return flywheel.setVelocityFromDistanceContinuousCommand(()->drivetrain.distanceToHive(alliance));
+    }
+
 
 
 

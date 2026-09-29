@@ -3,19 +3,10 @@ package org.firstinspires.ftc.teamcode.mechanisms;
 import static com.pedropathing.api.Paths.line;
 import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.allHivePoses;
 import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.allShootPoses;
-import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.allianceColor;
 import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.blueHivePoses;
 import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.blueShootPoses;
-import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.hivePoseBlue1;
-import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.hivePoseBlue2;
-import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.hivePoseRed1;
-import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.hivePoseRed2;
 import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.redHivePoses;
 import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.redShootPoses;
-import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.shootPoseBlue1;
-import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.shootPoseBlue2;
-import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.shootPoseRed1;
-import static org.firstinspires.ftc.teamcode.RobotConstants.MatchConstants.shootPoseRed2;
 import static dev.nextftc.units.Units.Inches;
 
 import androidx.annotation.NonNull;
@@ -28,12 +19,14 @@ import com.pedropathing.follower.ManualDrive;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.CommandBuilder;
 import com.pedropathing.math.Pose;
+import com.pedropathing.utils.Angle;
 import com.pedropathing.paths.Path;
 
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 import java.util.function.DoubleSupplier;
 
+import org.firstinspires.ftc.teamcode.data.Alliance;
 import dev.nextftc.robot.Mechanism;
 import dev.nextftc.units.measuretypes.Distance;
 
@@ -49,6 +42,7 @@ public class Drivetrain implements Mechanism {
     private Follower follower;
     private final PoseFactory poseFactory = PoseFactory.degrees();
     private Command defaultCommand = infinite(()->{});
+    private double driveAngleOffset = 0;
 
     private final Controller headingController = Constants.foresightConfig.headingFeedback.get();
 
@@ -77,6 +71,17 @@ public class Drivetrain implements Mechanism {
     public void setFollower(Follower follower){
         this.follower=follower;
     }
+
+    /**
+     * Sets the heading offset for the driver from the follower heading.
+     * E.g. if the robot is on red alliance the driver heading offset would probably be 180 degrees
+     * (PI radians)
+     * @param offsetInRadians The offset angle of the driver vs the pedropathing coordinate system.
+     */
+    public void setDriverHeadingOffset(double offsetInRadians){
+        driveAngleOffset = offsetInRadians;
+    }
+
 
     /**
      * Drives the robot using Robot oriented arcade drive.
@@ -131,8 +136,10 @@ public class Drivetrain implements Mechanism {
      *                Positive is counterclockwise movement.
      */
     public void manualFieldOriented(double forward, double lateral, double heading){
-        manualFieldOriented(forward,lateral,heading,follower.pose().heading());
+        manualFieldOriented(forward,lateral,heading,Angle.normalize( follower.pose().heading()-driveAngleOffset));
     }
+
+
 
     /**
      * Creates a Field relative DrivePowers object from the input parameters.
@@ -203,7 +210,7 @@ public class Drivetrain implements Mechanism {
      * @param holdAngle The Field Relative angle in radians that the robot should hold.
      */
     public void manualHoldAngleFieldOriented(double forward, double lateral, double heading, double holdAngle) {
-        manualHoldAngleFieldOriented(forward, lateral, heading, follower.pose().heading(), holdAngle);
+        manualHoldAngleFieldOriented(forward, lateral, heading, Angle.normalize( follower.pose().heading()-driveAngleOffset), holdAngle);
     }
 
     /**
@@ -239,11 +246,12 @@ public class Drivetrain implements Mechanism {
      * Creates a path based on the closest allowed shoot pose and hive Pose.
      * The path is created using line so it will not be curved.
      * The path also called facingPoint so that it will constantly face the hive throughout the path.
+     * @param allianceColor An Alliance object of the current robot alliance
      * @return A Line Path to the closest shoot pose with a facing point of the Hive.
      */
-    public Path getPathToShootPose(){
-        Pose[] shootPoses = getShootPoses();
-        Pose[] hivePoses = getHivePoses();
+    public Path getPathToShootPose(Alliance allianceColor){
+        Pose[] shootPoses = getShootPoses(allianceColor);
+        Pose[] hivePoses = getHivePoses(allianceColor);
         Pose shootPose = closestPose(follower.pose(), shootPoses);
         Pose hivePose = closestPose(shootPose, hivePoses);
         return line(follower.pose(),shootPose).facingPoint(hivePose);
@@ -252,9 +260,10 @@ public class Drivetrain implements Mechanism {
     /**
      * Gets the allowed Hive poses based on the current alliance.
      * If no Alliance color is present a list of all hive poses is returned
+     * @param allianceColor An Alliance object of the current robot alliance
      * @return A Pose[] of the hive poses corresponding to the Alliance color.
      */
-    private Pose[] getHivePoses(){
+    private Pose[] getHivePoses(Alliance allianceColor){
         switch (allianceColor){
             case RED:
                 return redHivePoses;
@@ -268,9 +277,10 @@ public class Drivetrain implements Mechanism {
     /**
      * Gets the allowed Shoot poses based on the current alliance.
      * If no Alliance color is present a list of all shoot poses is returned
+     * @param allianceColor An Alliance object of the current robot alliance
      * @return A Pose[] of the shoot poses corresponding to the Alliance color.
      */
-    private Pose[] getShootPoses(){
+    private Pose[] getShootPoses(Alliance allianceColor){
         switch (allianceColor){
             case RED:
                 return redShootPoses;
@@ -282,10 +292,11 @@ public class Drivetrain implements Mechanism {
     }
 
     /**
-     * A wrapper method for {@link #followPath(Path)} if Path is {@link #getPathToShootPose()}
+     * A wrapper method for {@link #followPath(Path)} if Path is {@link #getPathToShootPose(Alliance)}
+     * @param allianceColor An Alliance object of the current robot alliance
      */
-    public void pathToShootPose() {
-        follower.follow(getPathToShootPose());
+    public void pathToShootPose(Alliance allianceColor) {
+        follower.follow(getPathToShootPose(allianceColor));
     }
 
     /**
@@ -471,11 +482,12 @@ public class Drivetrain implements Mechanism {
     }
 
     /**
-     * This is a Wrapper command for {@link #followPathCommand(Path)} where Path is {@link #pathToShootPose()}
+     * This is a Wrapper command for {@link #followPathCommand(Path)} where Path is {@link #pathToShootPose(Alliance)}
+     * @param allianceColor An Alliance object of the current robot alliance
      * @return A command that paths to the shoot pose
      */
-    public Command pathToShootPoseCommand(){
-        return followPathCommand(getPathToShootPose());
+    public Command pathToShootPoseCommand(Alliance allianceColor){
+        return followPathCommand(getPathToShootPose(allianceColor));
     }
 
     /**
@@ -502,26 +514,29 @@ public class Drivetrain implements Mechanism {
     /**
      * Returns the closest hive pose allowed to the provided pose.
      * @param pose The pose that should be checked against
+     * @param allianceColor An Alliance object of the current robot alliance
      * @return The closest hive pose to {@code pose}
      */
-    public Pose closestHivePose(Pose pose){
-        Pose[] hivePoses= getHivePoses();
+    public Pose closestHivePose(Pose pose, Alliance allianceColor){
+        Pose[] hivePoses= getHivePoses(allianceColor);
         return closestPose(pose,hivePoses);
     }
 
     /**
      * Returns the distance to the closest allowed hive, using the robots current position
+     * @param allianceColor An Alliance object of the current robot alliance
      * @return A Distance unit of the distance between the followers current pose and the closest allowed hive.
      */
-    public Distance distanceToHive(){
-        return Inches.of(closestHivePose(follower.pose()).distance(follower.pose()));
+    public Distance distanceToHive(Alliance allianceColor){
+        return Inches.of(closestHivePose(follower.pose(), allianceColor).distance(follower.pose()));
     }
 
     /**
      * Returns the distance to the closest allowed hive, using the provided pose.
+     * @param allianceColor An Alliance object of the current robot alliance
      * @return A Distance unit of the distance between {@code pose} and the closest allowed hive.
      */
-    public Distance distanceToHive(Pose pose){
-        return Inches.of(closestHivePose(pose).distance(pose));
+    public Distance distanceToHive(Pose pose, Alliance allianceColor){
+        return Inches.of(closestHivePose(pose, allianceColor).distance(pose));
     }
 }
