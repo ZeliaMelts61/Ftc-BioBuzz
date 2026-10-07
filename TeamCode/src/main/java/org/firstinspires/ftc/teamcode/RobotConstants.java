@@ -54,7 +54,6 @@ public class RobotConstants {
                 kV = 12.5, // pulled from sample code
                 kA = 0, // Need to tune
                 kS = 0.08; // Need to tune
-
         public static final double encoderCountsPerRevolution = 28;
         public static final double gearReduction = 1;
         public static final double ticksPerRevolution = encoderCountsPerRevolution * gearReduction;
