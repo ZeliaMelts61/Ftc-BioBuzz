@@ -300,6 +300,23 @@ public class ZeliaRobot implements NextRobot {
         return flywheel.setVelocityFromDistanceContinuousCommand(()->drivetrain.distanceToHive(alliance));
     }
 
+    public Command shootAtRPM(double rpm){
+        return infinite(()->{
+            if(flywheel.isReady()) {
+                windmill.forward();
+            } else windmill.stop();
+        }).setEnd((e)-> {
+            flywheel.deactivate();
+            intake.stop();
+            windmill.stop();
+        }).requiring(flywheel,windmill,intake).setStart(()->{
+            windmill.stop();
+            intake.setAllThrottle(0.5);
+            flywheel.setTargetRPM(rpm);
+            flywheel.activate();
+        });
+    }
+
 
 
 
@@ -308,7 +325,7 @@ public class ZeliaRobot implements NextRobot {
     @NonNull
     @Override
     public Set<Mechanism> getMechanisms() {
-        return Set.of(intake, flywheel, windmill);
+        return Set.of(intake, flywheel, windmill, drivetrain);
     }
 
 }

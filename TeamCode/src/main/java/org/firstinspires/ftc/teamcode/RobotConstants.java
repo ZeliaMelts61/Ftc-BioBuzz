@@ -5,6 +5,7 @@ import static dev.nextftc.units.Units.RotationsPerMinute;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import dev.nextftc.hardware.actuators.NextMotor;
 import dev.nextftc.units.measuretypes.Angle;
@@ -45,13 +46,14 @@ public class RobotConstants {
 
         // Pidf constants for the flywheel
         // The 'I' term and the 'A' term should probably not be used
+        PIDFCoefficients q = new PIDFCoefficients(0,0,0,0);
         public static final double
-                kP = 0.003,
-                kI = 0,
-                kD = 0.00002,
-                kV = 0.000375,
-                kA = 0,
-                kS = 0.08; //TODO: TUNE VALUES
+                kP = 40, // pulled from sample code
+                kI = 0,  // pulled from sample code
+                kD = 0.00002, // added cause it makes logical sense
+                kV = 12.5, // pulled from sample code
+                kA = 0, // Need to tune
+                kS = 0.08; // Need to tune
 
         public static final double encoderCountsPerRevolution = 28;
         public static final double gearReduction = 1;
@@ -64,13 +66,14 @@ public class RobotConstants {
         // Define tuned (Distance in inches, RPM) data points here.
         // MUST BE SORTED by distance from lowest to highest. WITH NO DUPLICATES
         // It will do BAD things if it is not sorted correctly.
-        // TODO: Put in real values here cause i doubt the robot can launch a ball at 5900 rpm 💀
+        // TODO: Put in real values here
         public static final double[][] RPM_LOOKUP_TABLE = {
-                {94.0,  4500.0},  // {Distance, RPM}
-                {110.0, 4900.0},
-                {120.0, 5200.0},
-                {130.0, 5550.0},
-                {140.0, 5900.0}   // Add as many points as you need
+                {10, 850},  // {Distance, RPM}
+                {20, 900},
+                {30, 1000},
+                {40, 1150},
+                {43, 1250}, // this value is right the rest are not
+                {50, 1400}   // Add as many points as you need
         };
 
 
