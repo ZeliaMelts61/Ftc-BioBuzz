@@ -19,6 +19,7 @@ import com.pedropathing.follower.ManualDrive;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.CommandBuilder;
 import com.pedropathing.math.Pose;
+import com.pedropathing.math.Vector2D;
 import com.pedropathing.utils.Angle;
 import com.pedropathing.paths.Path;
 
@@ -106,7 +107,7 @@ public class Drivetrain implements Mechanism {
      *                Positive is counterclockwise movement.
      */
     public void manualRobotOriented(double forward, double lateral, double heading){
-        follower.manual(forward, lateral, heading);
+        follower.manual(-forward, -lateral, -heading);
     }
 
     /**
@@ -190,12 +191,15 @@ public class Drivetrain implements Mechanism {
      * @param holdAngle The Field Relative angle in radians that the robot should hold.
      */
     public void manualHoldAngleFieldOriented(double forward, double lateral, double heading, double currentAngle, double holdAngle){
+        Vector2D brakeCoeffs = Constants.foresightConfig.headingBrakeCoefficients.get();
         DrivePowers powers =
             ManualDrive.headingLock(
                     follower,
                     headingController,
                     getFieldCentricPowers(forward,lateral,heading,currentAngle),
-                    holdAngle);
+                    holdAngle,
+                    brakeCoeffs.x(),
+                    brakeCoeffs.y());
         follower.manual(powers);
     }
 
