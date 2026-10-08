@@ -64,13 +64,16 @@ public class Teleop extends NextOpMode {
         gp1.dpadRight()
                 .onTrue(robot.getWindmill().reverseCommand())
                 .onFalse(robot.getWindmill().stopCommand());
+        gp1.dpadLeft()
+                .onTrue(robot.getWindmill().forwardCommand())
+                .onFalse(robot.getWindmill().stopCommand());
 
-
+        robot.getFollower().manual(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
     }
 
     @Override
     public void periodic() {
-
+        robot.getFollower().update();
     }
 
     @Override
