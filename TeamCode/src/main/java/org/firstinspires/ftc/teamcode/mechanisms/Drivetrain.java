@@ -513,6 +513,7 @@ public class Drivetrain implements Mechanism {
     @Override
     public void periodic(){
         follower.update();
+
     }
 
     /**

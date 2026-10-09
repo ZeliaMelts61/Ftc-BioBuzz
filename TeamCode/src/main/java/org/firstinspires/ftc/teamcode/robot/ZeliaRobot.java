@@ -159,6 +159,7 @@ public class ZeliaRobot implements NextRobot {
         Telemetry.log("Drivetrain State", follower.mode().name());
         Telemetry.log("");
         Telemetry.log("Alliance", alliance.name());
+        Telemetry.log("drive comm", drivetrain.getDefaultCommand().isScheduled());
         Telemetry.update();
     }
 
@@ -190,7 +191,8 @@ public class ZeliaRobot implements NextRobot {
             drivetrain.manualRobotOrientedCommand(
                 ()->driveGamepad.left_stick_y,
                 ()->driveGamepad.left_stick_x,
-                ()->driveGamepad.right_stick_x)).schedule();
+                ()->driveGamepad.right_stick_x));
+        drivetrain.getDefaultCommand().schedule();
     }
 
     /**

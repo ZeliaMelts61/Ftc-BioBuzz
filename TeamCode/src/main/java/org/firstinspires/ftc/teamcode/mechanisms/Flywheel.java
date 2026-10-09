@@ -89,10 +89,13 @@ public class Flywheel implements Mechanism {
      * Constructs A flywheel object using values defined in RobotConstants.FlywheelConstants
      */
     public Flywheel() {
-        flywheel = new NextMotor(
-                FlywheelConstants.flywheelName,
-                FlywheelConstants.angleUnitPerEncoderCount,
-                FlywheelConstants.FLYWHEEL_MOTOR_CACHING_TOLERANCE);
+//        flywheel = new NextMotor(
+//                FlywheelConstants.flywheelName,
+//                FlywheelConstants.angleUnitPerEncoderCount,
+//                FlywheelConstants.FLYWHEEL_MOTOR_CACHING_TOLERANCE);
+
+        flywheel = new NextMotor(FlywheelConstants.flywheelName);
+
         flywheel.setDirection(FlywheelConstants.flywheelDirection);
         flywheel.setZeroPowerBehavior(FlywheelConstants.flywheelZeroPowerBehavior);
         flywheel.getVelocityConstants()
@@ -102,6 +105,8 @@ public class Flywheel implements Mechanism {
                 .withV(kV)
                 .withA(kA)
                 .withS(kS);
+        flywheel.getVelocityPID().getCoefficients().kP = 40;
+        flywheel.getVelocityPID().getCoefficients().kP = 40;
     }
 
 
