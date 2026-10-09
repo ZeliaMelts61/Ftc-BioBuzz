@@ -46,19 +46,20 @@ public class RobotConstants {
 
         // Pidf constants for the flywheel
         // The 'I' term and the 'A' term should probably not be used
-        PIDFCoefficients q = new PIDFCoefficients(0,0,0,0);
+//        PIDFCoefficients q = new PIDFCoefficients(0,0,0,0);
         public static final double
                 kP = 40, // pulled from sample code
                 kI = 0,  // pulled from sample code
-                kD = 0.00002, // added cause it makes logical sense
+                kD = 0, // added cause it makes logical sense
                 kV = 12.5, // pulled from sample code
                 kA = 0, // Need to tune
-                kS = 0.08; // Need to tune
+                kS = 0; // Need to tune
         public static final double encoderCountsPerRevolution = 28;
         public static final double gearReduction = 1;
         public static final double ticksPerRevolution = encoderCountsPerRevolution * gearReduction;
         public static final double degreesPerCount = 360.0 / ticksPerRevolution;
         public static final Angle angleUnitPerEncoderCount = Degrees.of(degreesPerCount);
+
 
         public static final double FLYWHEEL_MOTOR_CACHING_TOLERANCE = 0.05;
 
