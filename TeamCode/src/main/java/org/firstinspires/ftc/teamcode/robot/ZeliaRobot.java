@@ -105,6 +105,8 @@ public class ZeliaRobot implements NextRobot {
     public Follower getFollower() {
         if (follower == null) {
             follower = Constants.create(dev.nextftc.hardware.RobotController.hardwareMap());
+            follower.setPose(new Pose(0, 0, 0));
+            drivetrain.setFollower(follower);
         }
 
         return follower;
@@ -157,6 +159,7 @@ public class ZeliaRobot implements NextRobot {
         Telemetry.log("Drivetrain State", follower.mode().name());
         Telemetry.log("");
         Telemetry.log("Alliance", alliance.name());
+        Telemetry.log("drive comm", drivetrain.getDefaultCommand().isScheduled());
         Telemetry.update();
     }
 
@@ -185,10 +188,11 @@ public class ZeliaRobot implements NextRobot {
      */
     public void startDrive(Gamepad driveGamepad){
         drivetrain.setDefaultCommand(
-            drivetrain.manualFieldOrientedCommand(
+            drivetrain.manualRobotOrientedCommand(
                 ()->driveGamepad.left_stick_y,
                 ()->driveGamepad.left_stick_x,
-                ()->driveGamepad.right_stick_x)).schedule();
+                ()->driveGamepad.right_stick_x));
+        drivetrain.getDefaultCommand().schedule();
     }
 
     /**
@@ -287,8 +291,8 @@ public class ZeliaRobot implements NextRobot {
                         ()->{
                             Pose hivePose = drivetrain.closestHivePose(follower.pose(), alliance);
                             Pose robotPose = follower.pose();
-                            double dy=hivePose.x() - robotPose.x();
-                            double dx=hivePose.y() - robotPose.y();
+                            double dx = hivePose.x() - robotPose.x();
+                            double dy = hivePose.y() - robotPose.y();
                             return atan2(dy, dx);
                         }
                 ),
