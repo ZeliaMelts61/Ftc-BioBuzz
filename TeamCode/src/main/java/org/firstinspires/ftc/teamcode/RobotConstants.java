@@ -52,7 +52,7 @@ public class RobotConstants {
 
         // Pidf constants for the flywheel
         // The 'I' term and the 'A' term should probably not be used
-        PIDFCoefficients q = new PIDFCoefficients(0,0,0,0);
+//        PIDFCoefficients q = new PIDFCoefficients(0,0,0,0);
         public static final double
                 kP = 0.1, // pulled from another team GitHub
                 kI = 0,
