@@ -136,6 +136,7 @@ public class RobotConstants {
         public static final Pose shootPoseBlue1 = poseFactory.of(15,84, 0);
         public static final Pose shootPoseBlue2 = poseFactory.of(127,84,180);
 
+
         public static final Pose[] redShootPoses = {
                 shootPoseRed1,
                 shootPoseRed2};
