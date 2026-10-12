@@ -5,6 +5,7 @@ import static dev.nextftc.units.Units.RotationsPerMinute;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import dev.nextftc.hardware.actuators.NextMotor;
@@ -43,17 +44,22 @@ public class RobotConstants {
         public static final double VELOCITY_TOLERANCE_RPM = 30;
         public static final AngularVelocity VELOCITY_TOLERANCE = RotationsPerMinute.of(VELOCITY_TOLERANCE_RPM); // This is in Ticks per second not RPM
 
+        // we can try these for pids
+        // motorOne.getPositionConstants().withV(0.0075);
+        //        motorOne.getPositionConstants().withP(0.1);
+        // public static double KP  = 0.0005;
+        //    public static double KF  = 0.003;
 
         // Pidf constants for the flywheel
         // The 'I' term and the 'A' term should probably not be used
         PIDFCoefficients q = new PIDFCoefficients(0,0,0,0);
         public static final double
-                kP = 40, // pulled from sample code
-                kI = 0,  // pulled from sample code
-                kD = 0.00002, // added cause it makes logical sense
-                kV = 12.5, // pulled from sample code
+                kP = 0.1, // pulled from another team GitHub
+                kI = 0,
+                kD = 0.0,
+                kV = 0.0075, //  pulled from another team GitHub
                 kA = 0, // Need to tune
-                kS = 0.08; // Need to tune
+                kS = 0.008; // made up just cause
         public static final double encoderCountsPerRevolution = 28;
         public static final double gearReduction = 1;
         public static final double ticksPerRevolution = encoderCountsPerRevolution * gearReduction;
@@ -62,18 +68,37 @@ public class RobotConstants {
 
         public static final double FLYWHEEL_MOTOR_CACHING_TOLERANCE = 0.05;
 
+
+
         // Define tuned (Distance in inches, RPM) data points here.
         // MUST BE SORTED by distance from lowest to highest. WITH NO DUPLICATES
         // It will do BAD things if it is not sorted correctly.
         // TODO: Put in real values here
         public static final double[][] RPM_LOOKUP_TABLE = {
-                {10, 850},  // {Distance, RPM}
-                {20, 900},
-                {30, 1000},
-                {40, 1150},
-                {43, 1250}, // this value is right the rest are not
-                {50, 1400}   // Add as many points as you need
+                {10, 1300},  // {Distance, RPM}
+                {20, 1400},
+                {30, 1500},
+                {40, 1600},
+                {43, 2678}, // this value is right the rest are not
+                {50, 2750}   // Add as many points as you need
         };
+
+
+    }
+
+    public static class BackupFlywheelConstants{
+        public static final DcMotorEx.Direction flywheelDirection = DcMotorEx.Direction.FORWARD;
+
+        // THIS SHOULD NEVER BE ON BRAKE THAT'S HOW YOU DESTROY STUFF
+        public static final DcMotorEx.ZeroPowerBehavior flywheelZeroPowerBehavior = DcMotorEx.ZeroPowerBehavior.FLOAT;
+
+
+        public static final double
+                kP = 40, // pulled from sample code
+                kI = 0,  // pulled from sample code
+                kD = 0, // pulled from sample code
+                kF = 12.5; // pulled from sample code
+
 
 
     }

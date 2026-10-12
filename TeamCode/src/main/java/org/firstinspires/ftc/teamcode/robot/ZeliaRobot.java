@@ -14,6 +14,7 @@ import com.pedropathing.ivy.Command;
 import com.pedropathing.math.Pose;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RobotConstants;
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.teamcode.data.Alliance;
 import dev.nextftc.robot.Mechanism;
 import dev.nextftc.robot.NextRobot;
 import dev.nextftc.robot.Telemetry;
+import dev.nextftc.robot.triggers.Trigger;
 
 /**
  * This is the Zelia Robot (the main robot class).
@@ -41,6 +43,9 @@ public class ZeliaRobot implements NextRobot {
     private Follower follower = null;
 
     private final Flywheel flywheel = new Flywheel();
+    // if using the backup flywheel Uncomment line 123 & 124
+    // and change line 62 to return BackupFlywheel
+//    private final FlywheelBackup flywheel = new FlywheelBackup();
     private final Intake intake = new Intake();
     private final Windmill windmill = new Windmill();
     private final Drivetrain drivetrain = new Drivetrain();
@@ -115,6 +120,8 @@ public class ZeliaRobot implements NextRobot {
      * IT IS IMPORTANT THAT THIS IS CALLED, without it a lot of stuff will break.
      */
     public void init() {
+//        HardwareMap hw = dev.nextftc.robot.opmode.NextOpMode.Companion.getActiveHardwareMap$robot_release();
+//        if(hw!=null) flywheel.init(hw);
         drivetrain.setFollower(getFollower());
         schedule(
             infinite(this::loop)
