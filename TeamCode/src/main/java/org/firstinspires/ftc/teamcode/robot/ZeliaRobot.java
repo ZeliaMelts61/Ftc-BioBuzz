@@ -42,7 +42,7 @@ public class ZeliaRobot implements NextRobot {
 
     private Follower follower = null;
 
-    private final Flywheel flywheel = new Flywheel();
+    private final FlywheelBackup flywheel = new FlywheelBackup();
     // if using the backup flywheel Uncomment line 123 & 124
     // and change line 62 to return BackupFlywheel
 //    private final FlywheelBackup flywheel = new FlywheelBackup();
@@ -59,7 +59,7 @@ public class ZeliaRobot implements NextRobot {
      * Gets the flywheel mechanism
      * @return The flywheel mechanism
      */
-    public Flywheel getFlywheel() {
+    public FlywheelBackup getFlywheel() {
         return flywheel;
     }
 
@@ -122,12 +122,18 @@ public class ZeliaRobot implements NextRobot {
      * IT IS IMPORTANT THAT THIS IS CALLED, without it a lot of stuff will break.
      */
     public void init() {
-//        HardwareMap hw = dev.nextftc.robot.opmode.NextOpMode.Companion.getActiveHardwareMap$robot_release();
-//        if(hw!=null) flywheel.init(hw);
+        HardwareMap hw = dev.nextftc.robot.opmode.NextOpMode.Companion.getActiveHardwareMap$robot_release();
+        if(follower != null){
+            follower = null;
+            follower = getFollower();
+        }
+        if(hw!=null) flywheel.init(hw);
         drivetrain.setFollower(getFollower());
         schedule(
             infinite(this::loop)
         );
+        telemetryTimer.reset();;
+
     }
 
     /**

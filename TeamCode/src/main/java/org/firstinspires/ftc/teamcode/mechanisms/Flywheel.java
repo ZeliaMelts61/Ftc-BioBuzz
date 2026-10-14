@@ -110,8 +110,6 @@ public class Flywheel implements Mechanism {
                 .withV(kV)
                 .withA(kA)
                 .withS(kS);
-        flywheel.getVelocityPID().getCoefficients().kP = 40;
-        flywheel.getVelocityPID().getCoefficients().kP = 40;
     }
 
 

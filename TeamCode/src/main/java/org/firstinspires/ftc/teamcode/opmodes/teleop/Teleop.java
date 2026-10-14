@@ -39,6 +39,12 @@ public class Teleop extends NextOpMode {
         robot.init(); // MUST CALL BEFORE RUNNING STUFF
         robot.startDrive(gamepad1);
 
+        gp2.dpadRight()
+                .onTrue(robot.getIntake().setRightServoThrottleCommand(1))
+                .onFalse(robot.getIntake().setRightServoThrottleCommand(0));
+        gp2.dpadLeft()
+                .onTrue(robot.getIntake().setLeftServoThrottleCommand(1))
+                .onFalse(robot.getIntake().setLeftServoThrottleCommand(0));
 
         // Intake while the Left Bumper is being held
         gp1.leftBumper()
@@ -47,7 +53,7 @@ public class Teleop extends NextOpMode {
 
         // Shoot with just a rpm with the right bumper held down
         gp1.y()
-                .whileTrue(robot.shootAtRPM(1250));
+                .whileTrue(robot.shootAtRPM(2678));
 
         // Turn to target (whilst still allowing movement) and shoot while the Right Trigger is being held
         gp1.rightTrigger().isOver(0.2).whileTrue(robot.turnToTargetAndShoot(gamepad1))
@@ -81,9 +87,9 @@ public class Teleop extends NextOpMode {
                 .onFalse(robot.getWindmill().stopCommand());
 
         // Runs the windmill forward while D-pad left is held
-        gp1.dpadLeft()
-                .onTrue(robot.getWindmill().forwardCommand())
-                .onFalse(robot.getWindmill().stopCommand());
+//        gp1.dpadLeft()
+//                .onTrue(robot.getWindmill().forwardCommand())
+//                .onFalse(robot.getWindmill().stopCommand());
 
 
         gp1.start().onTrue(instant(() -> robot.getDrivetrain().setDriverHeadingOffset(robot.getFollower().pose().heading())));
