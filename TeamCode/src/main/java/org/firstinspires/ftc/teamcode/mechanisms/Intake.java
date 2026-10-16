@@ -115,10 +115,12 @@ public class Intake implements Mechanism {
     }
 
     /**
-     *  Sets the throttle of all actuators on the intake to -1 (max backward).
-     *  This includes the left and right intake servos, and the intake roller.
+     * Sets the throttle of all actuators on the intake to -1 (max backward).
+     * This includes the left and right intake servos, and the intake roller.
+     *
+     * @return
      */
-    public void outtake(){
+    public void  outtake(){
         setAllThrottle(-1);
     }
 

@@ -26,8 +26,8 @@ public class RobotConstants {
         public static final String intakeRightServoName = "rightIntake";
 
         public static final NextMotor.Direction intakeRollerDirection = NextMotor.Direction.FORWARD;
-        public static final NextMotor.Direction intakeLeftServoDirection = NextMotor.Direction.FORWARD;
-        public static final NextMotor.Direction intakeRightServoDirection = NextMotor.Direction.REVERSE;
+        public static final NextMotor.Direction intakeLeftServoDirection = NextMotor.Direction.REVERSE;
+        public static final NextMotor.Direction intakeRightServoDirection = NextMotor.Direction.FORWARD;
 
         public static final NextMotor.ZeroPowerBehavior IntakeRollerZeroPowerBehavior = NextMotor.ZeroPowerBehavior.BRAKE;
     }
@@ -54,7 +54,7 @@ public class RobotConstants {
         // The 'I' term and the 'A' term should probably not be used
 //        PIDFCoefficients q = new PIDFCoefficients(0,0,0,0);
         public static final double
-                kP = 0.1, // pulled from another team GitHub
+                kP = 0.0005, // pulled from another team GitHub
                 kI = 0,
                 kD = 0.0,
                 kV = 0.0075, //  pulled from another team GitHub

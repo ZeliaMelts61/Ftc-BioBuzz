@@ -1,0 +1,128 @@
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
+
+
+import static com.pedropathing.ivy.commands.Commands.instant;
+
+import com.pedropathing.ivy.Scheduler;
+
+import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
+
+
+import dev.nextftc.robot.opmode.NextOpMode;
+import dev.nextftc.robot.opmode.NextTeleop;
+import dev.nextftc.robot.opmode.NextUtility;
+import dev.nextftc.robot.triggers.CommandGamepad;
+import dev.nextftc.robot.triggers.Trigger;
+
+// --------------- Controller Mapping ----------------
+// Game Pad 1:
+//  Left Bumper = Intake
+//  left trigger = shoot
+//  right trigger = shoot at rpm
+//  y = shoot at rpm
+//  dpad down = outtake
+//  dpad up = intake
+//  dpad left = windmill forward
+//  dpad right = windmill reverse
+//  start = reset heading
+//  back = stop everything
+//  a = PATH?
+// Game Pad 2:
+//  dpad right = intake right servo
+//  dpad left = intake left servo
+@NextUtility(name = "Debug")
+public class DEBUG extends NextOpMode {
+    private final ZeliaRobot robot;
+    CommandGamepad gp1;
+    CommandGamepad gp2;
+
+    public DEBUG(ZeliaRobot robot) {
+        super(robot);
+        this.robot = robot;
+        Scheduler.reset();
+    }
+
+    @Override
+    public void start() {
+        Trigger.Companion.getDefaultEventLoop().clear();
+
+
+        if (gp1==null) {gp1=new CommandGamepad(gamepad1);}
+        if (gp2==null) {gp2=new CommandGamepad(gamepad2);}
+
+
+        robot.init(); // MUST CALL BEFORE RUNNING STUFF
+        robot.startDrive(gamepad1);
+
+        gp2.dpadRight()
+                .onTrue(robot.getIntake().setRightServoThrottleCommand(1))
+                .onFalse(robot.getIntake().setRightServoThrottleCommand(0));
+        gp2.dpadLeft()
+                .onTrue(robot.getIntake().setLeftServoThrottleCommand(1))
+                .onFalse(robot.getIntake().setLeftServoThrottleCommand(0));
+
+        // Intake while the Left Bumper is being held
+        gp1.leftBumper()
+                .onTrue(robot.getIntake().intakeCommand())
+                .onFalse(robot.getIntake().stopIntakeCommand());
+
+        // Shoot with just a rpm with the right bumper held down
+        gp1.y()
+                .whileTrue(robot.shootAtRPM(2678));
+
+        // Turn to target (whilst still allowing movement) and shoot while the Right Trigger is being held
+        gp1.rightTrigger().isOver(0.2).whileTrue(robot.turnToTargetAndShoot(gamepad1))
+                .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
+
+        // Shoot normally (without moving the drivetrain) while the left trigger is being held
+        gp1.leftTrigger().isOver(0.2).whileTrue(robot.shoot());
+
+        // AutoDrive™ to the shoot pose and shoot. (only while A is being held)
+        gp1.a().whileTrue(robot.driveToShootSpotThenShoot())
+                .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
+
+
+        // Reset Heading
+        gp1.start().onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
+
+        // The UH-OH something got stuck.™ Rotates everything backward while the back button is being held
+        gp1.back().whileTrue(robot.runEverythingReverse());
+
+        // Runs the intake backward while D-pad down is held
+        gp1.dpadDown()
+                .onTrue(robot.getIntake().outtakeCommand())
+                .onFalse(robot.getIntake().stopIntakeCommand());
+
+        // Runs the windmill backward while D-pad right is held
+        gp1.dpadRight()
+                .onTrue(robot.getWindmill().reverseCommand())
+                .onFalse(robot.getWindmill().stopCommand());
+        gp1.dpadLeft()
+                .onTrue(robot.getWindmill().forwardCommand())
+                .onFalse(robot.getWindmill().stopCommand());
+
+        // Runs the windmill forward while D-pad left is held
+//        gp1.dpadLeft()
+//                .onTrue(robot.getWindmill().forwardCommand())
+//                .onFalse(robot.getWindmill().stopCommand());
+
+
+        gp1.start().onTrue(instant(() -> robot.getDrivetrain().setDriverHeadingOffset(robot.getFollower().pose().heading())));
+
+
+    }
+
+    @Override
+    public void periodic() {
+        robot.getFollower().update();
+    }
+
+    @Override
+    public void end() {
+        robot.getIntake().stop();
+        robot.getFlywheel().deactivate();
+        robot.getWindmill().stop();
+        robot.getDrivetrain().stop();
+
+    }
+}
