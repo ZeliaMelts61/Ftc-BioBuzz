@@ -8,20 +8,13 @@ import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kI
 import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kP;
 import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kS;
 import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kV;
-
 import static dev.nextftc.units.Units.Inches;
 import static dev.nextftc.units.Units.RotationsPerMinute;
 
 import androidx.core.math.MathUtils;
 
 import com.pedropathing.ivy.Command;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorImplEx;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
-import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants;
 
 import java.util.function.Supplier;

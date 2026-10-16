@@ -1,16 +1,8 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
 import static com.pedropathing.utils.Utils.lerp;
-import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.RPM_LOOKUP_TABLE;
-import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kA;
-import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kD;
-import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kI;
-import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kP;
-import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kS;
-import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.kV;
-
 import static  org.firstinspires.ftc.teamcode.RobotConstants.BackupFlywheelConstants;
-
+import static org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants.RPM_LOOKUP_TABLE;
 import static dev.nextftc.units.Units.Amperes;
 import static dev.nextftc.units.Units.Inches;
 import static dev.nextftc.units.Units.RotationsPerMinute;
@@ -20,9 +12,7 @@ import androidx.core.math.MathUtils;
 import com.pedropathing.ivy.Command;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.RobotConstants;
@@ -30,13 +20,10 @@ import org.firstinspires.ftc.teamcode.RobotConstants.FlywheelConstants;
 
 import java.util.function.Supplier;
 
-import dev.nextftc.hardware.actuators.NextMotor;
 import dev.nextftc.robot.Mechanism;
-import dev.nextftc.units.Measure;
 import dev.nextftc.units.measuretypes.AngularVelocity;
 import dev.nextftc.units.measuretypes.Current;
 import dev.nextftc.units.measuretypes.Distance;
-import dev.nextftc.units.unittypes.AngleUnit;
 
 /**
  * This is the Flywheel Mechanism.

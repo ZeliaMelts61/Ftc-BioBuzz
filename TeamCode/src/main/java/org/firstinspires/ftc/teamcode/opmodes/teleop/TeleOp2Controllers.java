@@ -7,7 +7,6 @@ import com.pedropathing.ivy.Scheduler;
 
 import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
 
-
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.opmode.NextTeleop;
 import dev.nextftc.robot.triggers.CommandGamepad;
@@ -43,6 +42,8 @@ public class TeleOp2Controllers extends NextOpMode {
                 .onFalse(robot.getIntake().stopIntakeCommand());
 
         // Shoot with just a rpm with the right bumper held down
+        gp2.y()
+                .whileTrue(robot.shootAtRPM(2678));
 
         // Turn to target (whilst still allowing movement) and shoot while the Right Trigger is being held
         gp1.leftTrigger().isOver(0.2)
@@ -55,7 +56,6 @@ public class TeleOp2Controllers extends NextOpMode {
         // AutoDrive™ to the shoot pose and shoot. (only while A is being held)
         gp1.a().whileTrue(robot.driveToShootSpotThenShoot())
                 .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
-        //
 
         // Reset Heading
         gp2.start().onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
@@ -97,6 +97,5 @@ public class TeleOp2Controllers extends NextOpMode {
         robot.getFlywheel().deactivate();
         robot.getWindmill().stop();
         robot.getDrivetrain().stop();
-
     }
 }

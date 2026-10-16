@@ -124,8 +124,10 @@ public class ZeliaRobot implements NextRobot {
     public void init() {
         HardwareMap hw = dev.nextftc.robot.opmode.NextOpMode.Companion.getActiveHardwareMap$robot_release();
         if(follower != null){
+            Pose pose = follower.pose();
             follower = null;
             follower = getFollower();
+            follower.setPose(pose);
         }
         if(hw!=null) flywheel.init(hw);
         drivetrain.setFollower(getFollower());

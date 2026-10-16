@@ -1,33 +1,38 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto.commands;
 
 
-import static com.pedropathing.ivy.commands.Commands.instant;
-import static com.pedropathing.ivy.groups.Groups.parallel;
+import static com.pedropathing.ivy.commands.Commands.waitMs;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
-import com.pedropathing.follower.Follower;
+import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.CommandBuilder;
 import com.pedropathing.paths.Path;
 
-import org.firstinspires.ftc.teamcode.mechanisms.Intake;
 import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
 import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
 
 public class AutoCommands {
-    private final Follower follower;
+//    private final Follower follower;
     private final PathsAndPoses paths;
-    private final ZeliaRobot robot = new ZeliaRobot();
+    private final ZeliaRobot robot;
 
-    public AutoCommands(Follower follower, PathsAndPoses paths){
-        this.follower = follower;
+    public AutoCommands(ZeliaRobot robot, PathsAndPoses paths){
+        this.robot = robot;
         this.paths = paths;
     }
     public CommandBuilder runPath(Path path){
-        return follow(follower, path);
+        return follow(robot.getFollower(), path);
     }
 
-//    public CommandBuilder intakePath(Path path){
-//        return parallel(runPath(path), robot.getIntake().setSpeed(Intake.IntakeState.FORWARD));
-//    }
+    /**
+     * Returns a shoot Command that last the specified amount of time
+     * @param ms The amount of milliseconds the shooting should last
+     * @return a shoot Command that last the specified amount of time
+     */
+    public Command timedShoot(double ms) {
+        return robot.shoot().raceWith(waitMs(ms));
+    }
+
+
 }
 

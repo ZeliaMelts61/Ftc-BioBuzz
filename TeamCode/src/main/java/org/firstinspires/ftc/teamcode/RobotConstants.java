@@ -6,7 +6,6 @@ import static dev.nextftc.units.Units.RotationsPerMinute;
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import dev.nextftc.hardware.actuators.NextMotor;
 import dev.nextftc.units.measuretypes.Angle;
