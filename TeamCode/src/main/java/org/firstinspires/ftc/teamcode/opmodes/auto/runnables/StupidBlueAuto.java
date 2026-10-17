@@ -9,10 +9,11 @@ import org.firstinspires.ftc.teamcode.data.Alliance;
 import org.firstinspires.ftc.teamcode.opmodes.auto.commands.Routines;
 import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
 
+import dev.nextftc.robot.opmode.NextAutonomous;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.triggers.Trigger;
 
-@Autonomous(name = "SimpleBlueAuto")
+@NextAutonomous(name = "BlueAuto")
 public class StupidBlueAuto extends NextOpMode {
 
     private final ZeliaRobot robot;

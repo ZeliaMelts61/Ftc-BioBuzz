@@ -78,5 +78,23 @@ public class Routines {
                         // In this case it will cancel the drive command after 0.5 seconds
                         .raceWith(Commands.waitMs(500)));
     }
+    public Command autoDrivePark() {
+        return sequential(
+                // sets the starting pose
+                instant(()-> robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive)),
+                 // shoots for 10 seconds
+                robot.shootAtRPM(2678)
+                        // raceWith cancels both commands when one finishes
+                        // In this case it will cancel the shoot command after 10 seconds
+                        .raceWith(Commands.waitMs(10000)),
+                instant(()-> robot.getDrivetrain().followPath()),
+                // Drive backward for .5 seconds
+                // You may need to swap this to forward if flywheel side is front
+                robot.getDrivetrain().manualArcadeCommand(() -> -0.5, () -> 0)
+                        // raceWith cancels both commands when one finishes
+                        // In this case it will cancel the drive command after 0.5 seconds
+                        .raceWith(Commands.waitMs(500))
+        );
+    }
 
 }

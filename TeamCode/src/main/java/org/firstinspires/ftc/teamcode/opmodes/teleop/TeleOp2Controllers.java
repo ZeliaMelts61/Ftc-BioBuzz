@@ -39,7 +39,7 @@ public class TeleOp2Controllers extends NextOpMode {
         robot.startDrive(gamepad2);
 
         // Reset Heading
-        gp2.start().onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
+        gp2.start().or(gp2.triangle()).onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
 
 //      -------- Gamepad 1 & 2 --------
 
@@ -49,7 +49,7 @@ public class TeleOp2Controllers extends NextOpMode {
 //      ---------- Gamepad 1 ----------
 
         // AutoDrive™ to the shoot pose and shoot. (only while A is being held)
-        gp1.a().or(gp1.x()).whileTrue(robot.driveToShootSpotThenShoot())
+        gp1.a().or(gp1.cross()).whileTrue(robot.driveToShootSpotThenShoot())
                 .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
 
         // Intake while the Left Bumper is being held
@@ -86,10 +86,6 @@ public class TeleOp2Controllers extends NextOpMode {
         gp1.dpadDown()
                 .onTrue(robot.getIntake().outtakeCommand())
                 .onFalse(robot.getIntake().stopIntakeCommand());
-
-
-        gp1.start().onTrue(instant(() -> robot.getDrivetrain().setDriverHeadingOffset(robot.getFollower().pose().heading())));
-
 
     }
 
