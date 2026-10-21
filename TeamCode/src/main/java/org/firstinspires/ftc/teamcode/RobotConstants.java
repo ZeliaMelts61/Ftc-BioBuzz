@@ -30,7 +30,14 @@ public class RobotConstants {
 
         public static final NextMotor.ZeroPowerBehavior IntakeRollerZeroPowerBehavior = NextMotor.ZeroPowerBehavior.BRAKE;
     }
+    public static class HoodConstants{
+        public static final String hoodServoName = "hoodServo";
+        public static final NextMotor.Direction hoodServoDirection = NextMotor.Direction.FORWARD;
+    }
 
+    public static double map(double val, double low1, double high1, double low2, double high2) {
+        return low2 + ((val - low1) * (high2 - low2) / (high1 - low1));
+    }
     /** Constants for the flywheel Mechanism */
     public static class FlywheelConstants{
         public static final String flywheelName = "flywheel";
