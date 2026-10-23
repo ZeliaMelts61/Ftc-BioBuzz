@@ -53,10 +53,10 @@ public class PathsAndPoses {
 //    public Path startFLowerToLeavePos() {
 //        return through(startNextToFlower, leavePos).constant(startNextToFlower);
 //    }
-    public Pose parkPose = poseFactory.of(10,96,90);
-    public Pose controlPointForStartShootPoseToPark = poseFactory.of(10,96,90);
+    public Pose parkPose = poseFactory.of(10,96,270);
+    public Pose controlPointForStartShootPoseToPark = poseFactory.of(12,15,270);
     public Path startShootToPark(){
-        return curve(againstWallByUpwardsFacingStartingHive, controlPointForStartShootPoseToPark, parkPose).constant(poseFactory.of(0,0,90));
+        return curve(againstWallByUpwardsFacingStartingHive, controlPointForStartShootPoseToPark, parkPose).constant(poseFactory.of(0,0,againstWallByUpwardsFacingStartingHive.heading()));
     }
     public Path startFlowerToShootPoseFirst(){
         return line(startRightOfFlower, shootPoseRed2).linear(startRightOfFlower,shootPoseRed2);

@@ -87,7 +87,7 @@ public class Routines {
                         // raceWith cancels both commands when one finishes
                         // In this case it will cancel the shoot command after 10 seconds
                         .raceWith(Commands.waitMs(10000)),
-                instant(()-> robot.getDrivetrain().followPath(paths.startShootToPark()))
+                robot.getDrivetrain().followPathCommand(paths.startShootToPark())
         );
     }
 
