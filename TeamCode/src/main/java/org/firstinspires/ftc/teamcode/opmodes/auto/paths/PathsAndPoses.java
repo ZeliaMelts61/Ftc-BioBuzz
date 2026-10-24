@@ -28,8 +28,8 @@ public class PathsAndPoses {
     // WE ARE ALWAYS MAKING RED SIDE POSES
     private void mirrorPose(Alliance alliance){
         if (alliance == Alliance.BLUE) {
-            poseFactory.mirrorX(72.0);
-            poseFactory.mirrorY(72.0);
+            poseFactory.mirrorX(70.0);
+            poseFactory.mirrorY(70.0);
         }
     }
 
@@ -44,7 +44,7 @@ public class PathsAndPoses {
 
     // Idk which side of the robot is the front, if this is wrong set the heading to 0
     // This is the starting position for exactly in line with the upward starting hive.
-    public final Pose againstWallByUpwardsFacingStartingHive = poseFactory.of(134,58,0);
+    public final Pose againstWallByUpwardsFacingStartingHive = poseFactory.of(58.5,8.5,270);
 
 
 //    public final Pose leavePos = poseFactory.of(137.37, 30, 180);
@@ -53,7 +53,11 @@ public class PathsAndPoses {
 //    public Path startFLowerToLeavePos() {
 //        return through(startNextToFlower, leavePos).constant(startNextToFlower);
 //    }
-
+    public Pose parkPose = poseFactory.of(10,96,270);
+    public Pose controlPointForStartShootPoseToPark = poseFactory.of(12,15,270);
+    public Path startShootToPark(){
+        return curve(againstWallByUpwardsFacingStartingHive, controlPointForStartShootPoseToPark, parkPose).constant(poseFactory.of(0,0,againstWallByUpwardsFacingStartingHive.heading()));
+    }
     public Path startFlowerToShootPoseFirst(){
         return line(startRightOfFlower, shootPoseRed2).linear(startRightOfFlower,shootPoseRed2);
     }
