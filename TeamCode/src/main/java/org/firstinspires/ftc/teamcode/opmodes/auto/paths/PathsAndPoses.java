@@ -25,13 +25,13 @@ public class PathsAndPoses {
     // WE ARE ALWAYS MAKING RED SIDE POSES
     private void mirrorPose(Alliance alliance){
         if (alliance == Alliance.BLUE) {
-            poseFactory.mirrorX(70.0);
-            poseFactory.mirrorY(70.0);
+            poseFactory.mirrorX(72.0);
+            poseFactory.mirrorY(72.0);
         }
     }
 
     // MAKE POSES HERE
-    public final Pose startRightOfFlower = poseFactory.of(105.5, 8, 90);
+    public final Pose startRightOfFlower = poseFactory.of(105.5, 8, 270);
 
     public final Pose gardenLineup = poseFactory.of(120, 8.5, 180);
     public final Pose gardenPickup = poseFactory.of(133, 8.5, 180);

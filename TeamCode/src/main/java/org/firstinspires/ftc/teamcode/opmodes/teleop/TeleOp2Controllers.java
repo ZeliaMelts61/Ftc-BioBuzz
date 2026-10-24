@@ -34,15 +34,31 @@ public class TeleOp2Controllers extends NextOpMode {
 
 
         robot.init(); // MUST CALL BEFORE RUNNING STUFF
+
+//      ---------- Gamepad 2 ----------
         robot.startDrive(gamepad2);
 
+        // Reset Heading
+        gp2.start().or(gp2.triangle()).onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
+
+//      -------- Gamepad 1 & 2 --------
+
+// The UH-OH something got stuck.™ Rotates everything backward while the back button is being held
+        gp1.back().or(gp2.back()).whileTrue(robot.runEverythingReverse());
+
+//      ---------- Gamepad 1 ----------
+
+        // AutoDrive™ to the shoot pose and shoot. (only while A is being held)
+        gp1.a().or(gp1.cross()).whileTrue(robot.driveToShootSpotThenShoot())
+                .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
+
         // Intake while the Left Bumper is being held
-        gp1.leftBumper()
+        gp1.leftBumper().or(gp2.leftBumper())
                 .onTrue(robot.getIntake().intakeCommand())
                 .onFalse(robot.getIntake().stopIntakeCommand());
 
         // Shoot with just a rpm with the right bumper held down
-        gp2.y()
+        gp1.y()
                 .whileTrue(robot.shootAtRPM(2678));
 
         // Turn to target (whilst still allowing movement) and shoot while the Right Trigger is being held
@@ -53,15 +69,6 @@ public class TeleOp2Controllers extends NextOpMode {
         // Shoot normally (without moving the drivetrain) while the left trigger is being held
         gp1.rightTrigger().isOver(0.2).whileTrue(robot.shoot());
 
-        // AutoDrive™ to the shoot pose and shoot. (only while A is being held)
-        gp1.a().whileTrue(robot.driveToShootSpotThenShoot())
-                .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
-
-        // Reset Heading
-        gp2.start().onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
-
-        // The UH-OH something got stuck.™ Rotates everything backward while the back button is being held
-        gp1.back().or(gp2.back()).whileTrue(robot.runEverythingReverse());
 
         // Runs the intake backward while D-pad down is held
         gp1.b()
@@ -79,10 +86,6 @@ public class TeleOp2Controllers extends NextOpMode {
         gp1.dpadDown()
                 .onTrue(robot.getIntake().outtakeCommand())
                 .onFalse(robot.getIntake().stopIntakeCommand());
-
-
-        gp1.start().onTrue(instant(() -> robot.getDrivetrain().setDriverHeadingOffset(robot.getFollower().pose().heading())));
-
 
     }
 

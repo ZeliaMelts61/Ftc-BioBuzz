@@ -21,8 +21,8 @@ public class Tuning {
 //        return new PinpointTuner();
 //    }
 //
-//    @Tuner
-//    public static Procedure foresightTuner(){
-//        return new ForesightTuner((hardwareMap) -> new PinpointLocalizer(hardwareMap, Constants.localizerConfig), (hardwareMap -> new Mecanum(hardwareMap, Constants.driveConfig)));
-//    }
+    @Tuner
+    public static Procedure foresightTuner(){
+        return new ForesightTuner((hardwareMap) -> new PinpointLocalizer(hardwareMap, Constants.localizerConfig), (hardwareMap -> new Mecanum(hardwareMap, Constants.driveConfig)));
+    }
 }
