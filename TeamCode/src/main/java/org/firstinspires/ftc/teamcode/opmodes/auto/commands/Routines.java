@@ -20,14 +20,8 @@ public class Routines {
         this.commands = new AutoCommands(robot, paths);
     }
 
-//    public Command leaveAuto(Alliance alliance) {
-//        paths.mirrorPose(alliance);
-//        return sequential(
-//                commands.runPath(paths.startPos_to_leavePos())
-//        );
-//    }
-
     public Command preloadShootNoPickupAuto() {
+        robot.getFollower().setPose(paths.startRightOfFlower);
         return sequential(
                 robot.setupShoot(),
                 robot.getDrivetrain().followPathCommand(paths.startFlowerToShootPoseFirst()),
@@ -36,6 +30,7 @@ public class Routines {
     }
 
     public Command full2CycleAuto() {
+        robot.getFollower().setPose(paths.startRightOfFlower);
         return sequential(
                 robot.setupShoot(),
                 robot.getDrivetrain().followPathCommand(paths.startFlowerToShootPoseFirst()),
@@ -50,6 +45,7 @@ public class Routines {
     }
 
     public Command full1CycleAndPickupAuto(){
+        robot.getFollower().setPose(paths.startRightOfFlower);
         return sequential(
                 robot.setupShoot(),
                 robot.getDrivetrain().followPathCommand(paths.startFlowerToShootPoseFirst()),
@@ -62,9 +58,9 @@ public class Routines {
     }
 
     public Command simpleShootDrive() {
+        // sets the starting pose
+        robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive);
         return sequential(
-                // sets the starting pose
-                instant(()-> robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive)),
                 // shoots for 10 seconds
                 robot.shootAtRPM(2678)
                         // raceWith cancels both commands when one finishes
