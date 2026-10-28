@@ -75,9 +75,10 @@ public class Routines {
                         .raceWith(Commands.waitMs(500)));
     }
     public Command autoDrivePark() {
+        robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive);
         return sequential(
                 // sets the starting pose
-                instant(()-> robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive)),
+//                instant(()-> robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive)),
                  // shoots for 10 seconds
                 robot.shootAtRPM(2678)
                         // raceWith cancels both commands when one finishes

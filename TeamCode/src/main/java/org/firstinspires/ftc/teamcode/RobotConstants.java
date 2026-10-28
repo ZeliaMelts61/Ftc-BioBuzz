@@ -117,7 +117,7 @@ public class RobotConstants {
 
     /** Constants pertaining to robot telemetry */
     public static class TelemetryConstants{
-        public static final boolean debugMode = false;
+        public static final boolean debugMode = true;
         public static final double TELEMETRY_UPDATE_MS = 125.0;
     }
 

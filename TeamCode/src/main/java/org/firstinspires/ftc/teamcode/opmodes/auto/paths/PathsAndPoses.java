@@ -40,13 +40,13 @@ public class PathsAndPoses {
     public final Pose startLeftOfFlower = poseFactory.of(83.5,8,270);
 
     // This is the starting position for exactly in line with the upward starting hive.
-    public final Pose againstWallByUpwardsFacingStartingHive = poseFactory.of(58.5,8.5,270);
+    public final Pose againstWallByUpwardsFacingStartingHive = poseFactory.of(135.5,59,0);
 
     public final Pose shootPose1 = poseFactory.of(127,58,180);
     public final Pose shootPose2 = poseFactory.of(15,58,0);
 
-    public Pose parkPose = poseFactory.of(10,96,270);
-    public Pose controlPointForStartShootPoseToPark = poseFactory.of(12,15,270);
+    public Pose parkPose = poseFactory.of(46,10,0);
+    public Pose controlPointForStartShootPoseToPark = poseFactory.of(107,18,0);
 
     public Path startShootToPark(){
         return curve(againstWallByUpwardsFacingStartingHive, controlPointForStartShootPoseToPark, parkPose).constant(againstWallByUpwardsFacingStartingHive);
