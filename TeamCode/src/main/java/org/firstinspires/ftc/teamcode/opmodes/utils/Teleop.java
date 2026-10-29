@@ -49,7 +49,7 @@ public class Teleop extends NextOpMode {
                 .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
 
         // Intake while the Left Bumper is being held
-        gp1.leftBumper().or(gp2.leftBumper())
+        gp1.leftBumper().or(gp1.x()).or(gp1.rightBumper())
                 .onTrue(robot.getIntake().intakeCommand())
                 .onFalse(robot.getIntake().stopIntakeCommand());
 

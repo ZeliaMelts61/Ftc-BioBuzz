@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.data.Alliance;
 
 
 public class PathsAndPoses {
-    private final PoseFactory poseFactory = PoseFactory.degrees();
-    public PoseFactory getPoseFactory(){
+    public static final PoseFactory poseFactory = PoseFactory.degrees();
+    public static PoseFactory getPoseFactory(){
         return poseFactory;
     }
 
@@ -40,7 +40,7 @@ public class PathsAndPoses {
     public final Pose startLeftOfFlower = poseFactory.of(83.5,8,270);
 
     // This is the starting position for exactly in line with the upward starting hive.
-    public final Pose againstWallByUpwardsFacingStartingHive = poseFactory.of(135.5,59,0);
+    public static final Pose againstWallByUpwardsFacingStartingHive = poseFactory.of(135.5,59,0);
 
     public final Pose shootPose1 = poseFactory.of(127,58,180);
     public final Pose shootPose2 = poseFactory.of(15,58,0);
