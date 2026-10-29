@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.teleop;
+package org.firstinspires.ftc.teamcode.opmodes.utils;
 
 
 import static com.pedropathing.ivy.commands.Commands.instant;
@@ -8,11 +8,11 @@ import com.pedropathing.ivy.Scheduler;
 import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
 
 import dev.nextftc.robot.opmode.NextOpMode;
-import dev.nextftc.robot.opmode.NextTeleop;
+import dev.nextftc.robot.opmode.NextUtility;
 import dev.nextftc.robot.triggers.CommandGamepad;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextTeleop(name = "Teleop")
+@NextUtility(name = "USE THIS FOR 1 CONTROLLER")
 public class Teleop extends NextOpMode {
     private final ZeliaRobot robot;
     CommandGamepad gp1;
@@ -34,17 +34,22 @@ public class Teleop extends NextOpMode {
 
 
         robot.init(); // MUST CALL BEFORE RUNNING STUFF
+
         robot.startDrive(gamepad1);
 
-        gp2.dpadRight()
-                .onTrue(robot.getIntake().setRightServoThrottleCommand(1))
-                .onFalse(robot.getIntake().setRightServoThrottleCommand(0));
-        gp2.dpadLeft()
-                .onTrue(robot.getIntake().setLeftServoThrottleCommand(1))
-                .onFalse(robot.getIntake().setLeftServoThrottleCommand(0));
+        // Reset Heading
+        gp1.start().or(gp1.triangle()).onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
+
+
+// The UH-OH something got stuck.™ Rotates everything backward while the back button is being held
+        gp1.back().or(gp2.back()).whileTrue(robot.runEverythingReverse());
+
+        // AutoDrive™ to the shoot pose and shoot. (only while A is being held)
+        gp1.a().or(gp1.cross()).whileTrue(robot.driveToShootSpotThenShoot())
+                .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
 
         // Intake while the Left Bumper is being held
-        gp1.leftBumper()
+        gp1.leftBumper().or(gp2.leftBumper())
                 .onTrue(robot.getIntake().intakeCommand())
                 .onFalse(robot.getIntake().stopIntakeCommand());
 
@@ -53,25 +58,16 @@ public class Teleop extends NextOpMode {
                 .whileTrue(robot.shootAtRPM(2678));
 
         // Turn to target (whilst still allowing movement) and shoot while the Right Trigger is being held
-        gp1.rightTrigger().isOver(0.2).whileTrue(robot.turnToTargetAndShoot(gamepad1))
+        gp1.leftTrigger().isOver(0.2)
+                .whileTrue(robot.turnToTargetAndShoot(gamepad1))
                 .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
 
         // Shoot normally (without moving the drivetrain) while the left trigger is being held
-        gp1.leftTrigger().isOver(0.2).whileTrue(robot.shoot());
+        gp1.rightTrigger().isOver(0.2).whileTrue(robot.shoot());
 
-        // AutoDrive™ to the shoot pose and shoot. (only while A is being held)
-        gp1.a().whileTrue(robot.driveToShootSpotThenShoot())
-                .onFalse(instant(()->robot.getDrivetrain().getDefaultCommand().schedule()));
-
-
-        // Reset Heading
-        gp1.start().onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
-
-        // The UH-OH something got stuck.™ Rotates everything backward while the back button is being held
-        gp1.back().whileTrue(robot.runEverythingReverse());
 
         // Runs the intake backward while D-pad down is held
-        gp1.dpadDown()
+        gp1.b()
                 .onTrue(robot.getIntake().outtakeCommand())
                 .onFalse(robot.getIntake().stopIntakeCommand());
 
@@ -83,14 +79,9 @@ public class Teleop extends NextOpMode {
                 .onTrue(robot.getWindmill().forwardCommand())
                 .onFalse(robot.getWindmill().stopCommand());
 
-        // Runs the windmill forward while D-pad left is held
-//        gp1.dpadLeft()
-//                .onTrue(robot.getWindmill().forwardCommand())
-//                .onFalse(robot.getWindmill().stopCommand());
-
-
-        gp1.start().onTrue(instant(() -> robot.getDrivetrain().setDriverHeadingOffset(robot.getFollower().pose().heading())));
-
+        gp1.dpadDown()
+                .onTrue(robot.getIntake().outtakeCommand())
+                .onFalse(robot.getIntake().stopIntakeCommand());
 
     }
 
@@ -105,6 +96,5 @@ public class Teleop extends NextOpMode {
         robot.getFlywheel().deactivate();
         robot.getWindmill().stop();
         robot.getDrivetrain().stop();
-
     }
 }
