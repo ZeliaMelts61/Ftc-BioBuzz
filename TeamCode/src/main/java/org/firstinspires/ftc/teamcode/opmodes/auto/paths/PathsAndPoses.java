@@ -51,6 +51,16 @@ public class PathsAndPoses {
     public Path startShootToPark(){
         return curve(againstWallByUpwardsFacingStartingHive, controlPointForStartShootPoseToPark, parkPose).constant(againstWallByUpwardsFacingStartingHive);
     }
+    // ----- path 2 -----
+    // from waitshoot to park
+    private final Pose P2_Start = poseFactory.of(7.5643, 58.1278, 180);
+    private final Pose P2_End = poseFactory.of(24.2735, 9.3498, 180);
+    private final Pose P2_ControlPoint = poseFactory.of(24.2244, 73.6464, 0);
+
+    public Path path2() {
+        return Paths.curve(P2_Start, P2_ControlPoint, P2_End).linear(P2_Start, P2_End);
+    }
+    // --- MISC
     public Path startFlowerToShootPoseFirst(){
         return line(startRightOfFlower, shootPose1).linear(startRightOfFlower,shootPose1);
     }
