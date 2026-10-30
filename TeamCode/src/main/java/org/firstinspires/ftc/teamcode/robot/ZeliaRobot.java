@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.data.Alliance;
 import dev.nextftc.robot.Mechanism;
 import dev.nextftc.robot.NextRobot;
 import dev.nextftc.robot.Telemetry;
+import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
 import dev.nextftc.robot.triggers.Trigger;
 
 /**
@@ -134,7 +135,9 @@ public class ZeliaRobot implements NextRobot {
         schedule(
             infinite(this::loop)
         );
-        telemetryTimer.reset();;
+        telemetryTimer.reset();
+        follower.setPose(PathsAndPoses.againstWallByUpwardsFacingStartingHive);
+
 
     }
 

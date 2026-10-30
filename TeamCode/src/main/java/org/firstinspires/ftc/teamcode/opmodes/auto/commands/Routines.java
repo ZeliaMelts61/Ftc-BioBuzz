@@ -75,7 +75,7 @@ public class Routines {
                         .raceWith(Commands.waitMs(500)));
     }
     public Command autoDrivePark() {
-        robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive);
+        robot.getFollower().setPose(PathsAndPoses.againstWallByUpwardsFacingStartingHive);
         return sequential(
                 // sets the starting pose
 //                instant(()-> robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive)),
