@@ -12,7 +12,7 @@ import dev.nextftc.robot.opmode.NextAutonomous;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextAutonomous(name = "BlueAutoShootPark")
+@NextAutonomous(name = "BlueAutoShootPark", preselectTeleop = "USE THIS FOR 2 CONTROLLERS")
 public class NotStupidBlueAuto extends NextOpMode {
 
     private final ZeliaRobot robot;

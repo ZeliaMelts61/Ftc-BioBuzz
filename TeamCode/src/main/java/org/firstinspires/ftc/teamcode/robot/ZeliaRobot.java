@@ -173,6 +173,8 @@ public class ZeliaRobot implements NextRobot {
         Telemetry.log("Drivetrain Velocity", follower.velocity());
         Telemetry.log("Drivetrain State", follower.mode().name());
         Telemetry.log("Drivetrain Pose", follower.pose().toString());
+        Telemetry.log("Distance from hive", drivetrain.distanceToHive(alliance));
+        Telemetry.log("Closest Hive Pose", drivetrain.closestHivePose(follower.pose(), alliance).toString());
         Telemetry.log("");
         Telemetry.log("Alliance", alliance.name());
         Telemetry.log("drive comm", drivetrain.getDefaultCommand().isScheduled());

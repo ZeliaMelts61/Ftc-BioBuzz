@@ -6,6 +6,7 @@ import static com.pedropathing.ivy.commands.Commands.instant;
 import com.pedropathing.ivy.Scheduler;
 
 import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
+import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
 
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.opmode.NextTeleop;
@@ -39,8 +40,8 @@ public class TeleOp2Controllers extends NextOpMode {
         robot.startDrive(gamepad2);
 
         // Reset Heading
-        gp2.start().or(gp2.triangle()).onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
-
+//        gp2.start().or(gp2.triangle()).onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
+        gp2.start().onTrue(instant(() -> robot.getFollower().setPose(PathsAndPoses.againstWallByUpwardsFacingStartingHive)));
 //      -------- Gamepad 1 & 2 --------
 
 // The UH-OH something got stuck.™ Rotates everything backward while the back button is being held
