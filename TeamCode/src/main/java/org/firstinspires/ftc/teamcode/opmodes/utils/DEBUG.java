@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.teleop;
+package org.firstinspires.ftc.teamcode.opmodes.utils;
 
 
 import static com.pedropathing.ivy.commands.Commands.instant;
@@ -8,17 +8,33 @@ import com.pedropathing.ivy.Scheduler;
 import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
 
 import dev.nextftc.robot.opmode.NextOpMode;
-import dev.nextftc.robot.opmode.NextTeleop;
+import dev.nextftc.robot.opmode.NextUtility;
 import dev.nextftc.robot.triggers.CommandGamepad;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextTeleop(name = "Teleop")
-public class Teleop extends NextOpMode {
+// --------------- Controller Mapping ----------------
+// Game Pad 1:
+//  Left Bumper = Intake
+//  left trigger = shoot
+//  right trigger = shoot at rpm
+//  y = shoot at rpm
+//  dpad down = outtake
+//  dpad up = intake
+//  dpad left = windmill forward
+//  dpad right = windmill reverse
+//  start = reset heading
+//  back = stop everything
+//  a = PATH?
+// Game Pad 2:
+//  dpad right = intake right servo
+//  dpad left = intake left servo
+@NextUtility(name = "Debug")
+public class DEBUG extends NextOpMode {
     private final ZeliaRobot robot;
     CommandGamepad gp1;
     CommandGamepad gp2;
 
-    public Teleop(ZeliaRobot robot) {
+    public DEBUG(ZeliaRobot robot) {
         super(robot);
         this.robot = robot;
         Scheduler.reset();

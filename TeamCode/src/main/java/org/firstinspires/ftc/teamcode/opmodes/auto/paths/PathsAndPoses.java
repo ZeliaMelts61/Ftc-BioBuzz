@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.data.Alliance;
 
 
 public class PathsAndPoses {
-    private final PoseFactory poseFactory = PoseFactory.degrees();
+    private static final PoseFactory poseFactory = PoseFactory.degrees();
     public PoseFactory getPoseFactory(){
         return poseFactory;
     }
@@ -40,17 +40,27 @@ public class PathsAndPoses {
     public final Pose startLeftOfFlower = poseFactory.of(83.5,8,270);
 
     // This is the starting position for exactly in line with the upward starting hive.
-    public final Pose againstWallByUpwardsFacingStartingHive = poseFactory.of(58.5,8.5,270);
+    public static final Pose againstWallByUpwardsFacingStartingHive = poseFactory.of(135.5,59,0);
 
     public final Pose shootPose1 = poseFactory.of(127,58,180);
     public final Pose shootPose2 = poseFactory.of(15,58,0);
 
-    public Pose parkPose = poseFactory.of(10,96,270);
-    public Pose controlPointForStartShootPoseToPark = poseFactory.of(12,15,270);
+    public Pose parkPose = poseFactory.of(46,10,0);
+    public Pose controlPointForStartShootPoseToPark = poseFactory.of(107,18,0);
 
     public Path startShootToPark(){
         return curve(againstWallByUpwardsFacingStartingHive, controlPointForStartShootPoseToPark, parkPose).constant(againstWallByUpwardsFacingStartingHive);
     }
+    // ----- path 2 -----
+    // from waitshoot to park
+    private final Pose P2_Start = poseFactory.of(7.5643, 58.1278, 180);
+    private final Pose P2_End = poseFactory.of(24.2735, 9.3498, 180);
+    private final Pose P2_ControlPoint = poseFactory.of(24.2244, 73.6464, 0);
+
+    public Path path2() {
+        return Paths.curve(P2_Start, P2_ControlPoint, P2_End).linear(P2_Start, P2_End);
+    }
+    // --- MISC
     public Path startFlowerToShootPoseFirst(){
         return line(startRightOfFlower, shootPose1).linear(startRightOfFlower,shootPose1);
     }

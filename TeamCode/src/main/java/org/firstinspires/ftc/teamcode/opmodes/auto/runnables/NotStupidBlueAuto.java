@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto.runnables;
 
+import static com.pedropathing.ivy.commands.Commands.instant;
+
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.data.Alliance;
 import org.firstinspires.ftc.teamcode.opmodes.auto.commands.Routines;
@@ -12,7 +15,7 @@ import dev.nextftc.robot.opmode.NextAutonomous;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextAutonomous(name = "BlueAutoShootPark")
+@NextAutonomous(name = "BlueAutoShootPark", preselectTeleop = "USE THIS FOR 2 CONTROLLERS")
 public class NotStupidBlueAuto extends NextOpMode {
 
     private final ZeliaRobot robot;
