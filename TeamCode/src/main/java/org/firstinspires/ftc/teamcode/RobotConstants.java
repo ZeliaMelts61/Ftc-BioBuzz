@@ -47,7 +47,7 @@ public class RobotConstants {
         // THIS SHOULD NEVER BE ON BRAKE THAT'S HOW YOU DESTROY STUFF
         public static final NextMotor.ZeroPowerBehavior flywheelZeroPowerBehavior = NextMotor.ZeroPowerBehavior.FLOAT;
 
-        public static final double VELOCITY_TOLERANCE_RPM = 30;
+        public static final double VELOCITY_TOLERANCE_RPM = 45;
         public static final AngularVelocity VELOCITY_TOLERANCE = RotationsPerMinute.of(VELOCITY_TOLERANCE_RPM); // This is in Ticks per second not RPM
 
         // we can try these for pids

@@ -31,8 +31,8 @@ public class PathsAndPoses {
     }
 
     // start close shoot to park
-    public static final Pose startFacingUpHive = poseFactory.of(59, 8.5, 90);
-    private final Pose parkClose = poseFactory.of(10, 95.5, 270);
+    public static final Pose startFacingUpHive = poseFactory.of(59, 8.5, 270);
+    private final Pose parkClose = poseFactory.of(14, 95.5, 270);
     private final Pose startShootToParkControl1 = poseFactory.of(23, 15, 0);
 
     public Path startShootToPark() {
