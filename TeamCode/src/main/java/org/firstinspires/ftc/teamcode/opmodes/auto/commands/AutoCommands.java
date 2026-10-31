@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.opmodes.auto.commands;
 
 
 import static com.pedropathing.ivy.commands.Commands.waitMs;
+import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.CommandBuilder;
+import com.pedropathing.ivy.commands.Commands;
 import com.pedropathing.paths.Path;
 
 import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
@@ -31,6 +33,26 @@ public class AutoCommands {
      */
     public Command timedShoot(double ms) {
         return robot.shoot().raceWith(waitMs(ms));
+    }
+
+    public Command followPath(Path path){
+        return robot.getDrivetrain().followPathCommand(path);
+    }
+
+    public Command intakePath(Path path){
+        return sequential(
+            robot.getIntake().intakeCommand(),
+            followPath(path),
+            robot.getIntake().stopIntakeCommand()
+        );
+    }
+
+    public Command timedIntake(double ms){
+        return sequential(
+                robot.getIntake().intakeCommand(),
+                waitMs(ms),
+                robot.getIntake().stopIntakeCommand()
+        );
     }
 
 

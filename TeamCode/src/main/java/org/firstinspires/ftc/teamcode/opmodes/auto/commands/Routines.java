@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto.commands;
 
 import static com.pedropathing.ivy.commands.Commands.instant;
+import static com.pedropathing.ivy.commands.Commands.waitMs;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
 import com.pedropathing.ivy.Command;
@@ -20,71 +21,89 @@ public class Routines {
         this.commands = new AutoCommands(robot, paths);
     }
 
-    public Command preloadShootNoPickupAuto() {
-        robot.getFollower().setPose(paths.startRightOfFlower);
+    public Command shootPark(){
+        robot.getFollower().setPose(paths.startFacingUpHive);
         return sequential(
-                robot.setupShoot(),
-                robot.getDrivetrain().followPathCommand(paths.startFlowerToShootPoseFirst()),
-                commands.timedShoot(10000)
+                commands.timedShoot(10000),
+                commands.followPath(paths.startShootToPark())
+        );
+    }
+
+    public Command shootPickup() {
+        robot.getFollower().setPose(paths.startFacingUpHive);
+        return sequential(
+                commands.timedShoot(10000),
+                commands.followPath(paths.startToGardenLineup()),
+                commands.intakePath(paths.gardenPickup()),
+                commands.timedIntake(500)
+        );
+    }
+
+    public Command shootPickupPark(){
+        robot.getFollower().setPose(paths.startFacingUpHive);
+        return sequential(
+                commands.timedShoot(10000),
+                commands.followPath(paths.startToGardenLineup()),
+                commands.intakePath(paths.gardenPickup()),
+                commands.timedIntake(500),
+                commands.followPath(paths.gardenToPark())
         );
     }
 
     public Command full2CycleAuto() {
-        robot.getFollower().setPose(paths.startRightOfFlower);
+        robot.getFollower().setPose(paths.startFacingUpHive);
         return sequential(
-                robot.setupShoot(),
-                robot.getDrivetrain().followPathCommand(paths.startFlowerToShootPoseFirst()),
                 commands.timedShoot(5000),
-                robot.getDrivetrain().followPathCommand(paths.shoot1ToGardenLineup()),
-                robot.getDrivetrain().followPathCommand(paths.gardenLineUpToGarden())
-                        .with(robot.getIntake().intakeCommand()),
-                robot.getDrivetrain().followPathCommand(paths.gardenToShootPoseSecond())
-                        .with(robot.continuousFlywheelSpeedControl()),
-                commands.timedShoot(10000)
-        );
-    }
-
-    public Command full1CycleAndPickupAuto(){
-        robot.getFollower().setPose(paths.startRightOfFlower);
-        return sequential(
-                robot.setupShoot(),
-                robot.getDrivetrain().followPathCommand(paths.startFlowerToShootPoseFirst()),
+                commands.followPath(paths.startToGardenLineup()),
+                commands.intakePath(paths.gardenPickup()),
+                commands.timedIntake(500),
+                commands.followPath(paths.gardenToShoot2())
+                        .with(robot.setupShoot()),
                 commands.timedShoot(5000),
-                robot.getDrivetrain().followPathCommand(paths.shoot1ToGardenLineup()),
-                robot.getDrivetrain().followPathCommand(paths.gardenLineUpToGarden())
-                        .with(robot.getIntake().intakeCommand())
-        );
-
-    }
-
-    public Command simpleShootDrive() {
-        // sets the starting pose
-        robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive);
-        return sequential(
-                // shoots for 10 seconds
-                robot.shootAtRPM(2678)
-                        // raceWith cancels both commands when one finishes
-                        // In this case it will cancel the shoot command after 10 seconds
-                        .raceWith(Commands.waitMs(10000)),
-
-                // Drive backward for .5 seconds
-                // You may need to swap this to forward if flywheel side is front
-                robot.getDrivetrain().manualArcadeCommand(() -> -0.5, () -> 0)
-                        // raceWith cancels both commands when one finishes
-                        // In this case it will cancel the drive command after 0.5 seconds
-                        .raceWith(Commands.waitMs(500)));
-    }
-    public Command autoDrivePark() {
-        return sequential(
-                // sets the starting pose
-                instant(()-> robot.getFollower().setPose(paths.againstWallByUpwardsFacingStartingHive)),
-                 // shoots for 10 seconds
-                robot.shootAtRPM(2678)
-                        // raceWith cancels both commands when one finishes
-                        // In this case it will cancel the shoot command after 10 seconds
-                        .raceWith(Commands.waitMs(10000)),
-                robot.getDrivetrain().followPathCommand(paths.startShootToPark())
+                commands.intakePath(paths.shoot2ToPark())
         );
     }
+
+    public Command waitFarShootPark(){
+        robot.getFollower().setPose(paths.startFacingDownHive);
+        return sequential(
+                waitMs(8000),
+                robot.setupShoot(),
+                waitMs(2000),
+                commands.timedShoot(10000),
+                commands.followPath(paths.waitShootPark())
+        );
+    }
+
+    public Command waitFarShootPickup(){
+        robot.getFollower().setPose(paths.startFacingDownHive);
+        return sequential(
+                waitMs(8000),
+                robot.setupShoot(),
+                waitMs(2000),
+                commands.timedShoot(8000),
+                commands.followPath(paths.farShootToPickup()),
+                commands.intakePath(paths.gardenPickup()),
+                commands.timedIntake(500)
+        );
+    }
+
+    public Command waitFarShootPickupPark(){
+        robot.getFollower().setPose(paths.startFacingDownHive);
+        return sequential(
+                waitMs(8000),
+                robot.setupShoot(),
+                waitMs(2000),
+                commands.timedShoot(8000),
+                commands.followPath(paths.farShootToPickup()),
+                commands.intakePath(paths.gardenPickup()),
+                commands.timedIntake(500),
+                commands.followPath(paths.gardenToPark())
+        );
+    }
+
+
+
+
 
 }

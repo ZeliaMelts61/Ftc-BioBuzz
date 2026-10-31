@@ -25,45 +25,76 @@ public class PathsAndPoses {
     // WE ARE ALWAYS MAKING RED SIDE POSES
     private void mirrorPose(Alliance alliance){
         if (alliance == Alliance.BLUE) {
-            poseFactory.mirrorX(72.0);
-            poseFactory.mirrorY(72.0);
+            poseFactory.mirrorX((141.5/2));
+            poseFactory.mirrorY((141.5/2));
         }
     }
 
-    // MAKE POSES HERE
-    public final Pose startRightOfFlower = poseFactory.of(105.5, 8, 270);
+    // start close shoot to park
+    public final Pose startFacingUpHive = poseFactory.of(59, 8.5, 90);
+    private final Pose parkClose = poseFactory.of(10, 95.5, 270);
+    private final Pose startShootToParkControl1 = poseFactory.of(23, 15, 0);
 
-    public final Pose gardenLineup = poseFactory.of(120, 8.5, 180);
-    public final Pose gardenPickup = poseFactory.of(133, 8.5, 180);
-    public final Pose gardenTo2ndShootControlPoint = poseFactory.of(13.5,27.5,0);
-
-    public final Pose startLeftOfFlower = poseFactory.of(83.5,8,270);
-
-    // This is the starting position for exactly in line with the upward starting hive.
-    public final Pose againstWallByUpwardsFacingStartingHive = poseFactory.of(58.5,8.5,270);
-
-    public final Pose shootPose1 = poseFactory.of(127,58,180);
-    public final Pose shootPose2 = poseFactory.of(15,58,0);
-
-    public Pose parkPose = poseFactory.of(10,96,270);
-    public Pose controlPointForStartShootPoseToPark = poseFactory.of(12,15,270);
-
-    public Path startShootToPark(){
-        return curve(againstWallByUpwardsFacingStartingHive, controlPointForStartShootPoseToPark, parkPose).constant(againstWallByUpwardsFacingStartingHive);
+    public Path startShootToPark() {
+        return Paths.curve(startFacingUpHive, startShootToParkControl1, parkClose).constant(parkClose);
     }
-    public Path startFlowerToShootPoseFirst(){
-        return line(startRightOfFlower, shootPose1).linear(startRightOfFlower,shootPose1);
+
+
+    // from wait shoot to park
+    public final Pose startFacingDownHive = poseFactory.of(57.5, 134, 90);
+    private final Pose waitShootPark = poseFactory.of(9, 118, 90);
+    private final Pose waitShootParkControl1 = poseFactory.of(58, 115, 0);
+
+    public Path waitShootPark() {
+        return Paths.curve(startFacingDownHive, waitShootParkControl1, waitShootPark).linear(startFacingDownHive, waitShootPark);
     }
-    public Path shoot1ToGardenLineup(){
-        return line(shootPose1, gardenLineup).linear(shootPose1,gardenLineup);
+
+
+    // 2 cycle
+    private final Pose gardenLineup = poseFactory.of(8.5, 14.5, 270);
+    private final Pose gardenPickup = poseFactory.of(8.5, 6, -90);
+    private final Pose shoot2 = poseFactory.of(61.5, 132.5, -270);
+    private final Pose gardenToShoot2Control1 = poseFactory.of(35, 30, 0);
+    private final Pose gardenToShoot2Control2 = poseFactory.of(0, 107, 0);
+    private final Pose gardenToShoot2Control3 = poseFactory.of(58, 108, 0);
+    private final Pose gardenToShoot2Segment1Heading = poseFactory.of(60, 133, 270);
+    private final Pose gardenToShoot2Segment2Start = poseFactory.of(60, 133, -90);
+    private final Pose gardenToShoot2Segment2End = poseFactory.of(60, 133, 90);
+    private final Pose parkFar = poseFactory.of(10, 118, 90);
+    private final Pose shoot2ToParkControl1 = poseFactory.of(63, 115, 0);
+
+    public Path startToGardenLineup() {
+        return Paths.line(startFacingUpHive, gardenLineup).linear(startFacingUpHive, gardenLineup);
     }
-    public Path gardenLineUpToGarden(){
-        return Paths.line(gardenLineup,gardenPickup).reverseTangent();
+
+    public Path gardenPickup() {
+        return Paths.line(gardenLineup, gardenPickup).tangent();
     }
-    public Path gardenToShootPoseSecond(){
-        Interpolator interpolation = Interpolator.piecewise()
-                .until(0.1, Interpolator.constant(180))
-                .until(1, Interpolator.linear(gardenPickup,shootPose2));
-        return curve(gardenPickup,gardenTo2ndShootControlPoint,shootPose2).heading(interpolation);
+
+    public Path gardenToShoot2() {
+        return Paths.curve(gardenPickup, gardenToShoot2Control1, gardenToShoot2Control2, gardenToShoot2Control3, shoot2).heading(Interpolator.piecewise().until(0.1, Interpolator.constant(gardenToShoot2Segment1Heading)).until(1, Interpolator.linear(gardenToShoot2Segment2Start, gardenToShoot2Segment2End)));
     }
+
+    public Path shoot2ToPark() {
+        return Paths.curve(shoot2, shoot2ToParkControl1, parkFar).constant(parkFar);
+    }
+
+
+
+
+    private final Pose gardenToParkControl1 = poseFactory.of(45, 47, 0);
+
+    public Path gardenToPark() {
+        return Paths.curve(gardenPickup, gardenToParkControl1, parkClose).constant(gardenPickup);
+    }
+
+    private final Pose farShootToPickupControl1 = poseFactory.of(69, 107.5, 0);
+    private final Pose farShootToPickupControl2 = poseFactory.of(0, 130, 0);
+    private final Pose farShootToPickupControl3 = poseFactory.of(42, 22.5, 0);
+
+    public Path farShootToPickup() {
+        return Paths.curve(startFacingDownHive, farShootToPickupControl1, farShootToPickupControl2, farShootToPickupControl3, gardenLineup).linear(startFacingDownHive, gardenLineup);
+    }
+
+
 }

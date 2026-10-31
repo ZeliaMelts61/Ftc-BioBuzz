@@ -137,10 +137,10 @@ public class RobotConstants {
         // You may add as many shoot poses as you want as long as you update the shoot poses arrays below
 
         // TODO: put real shoot poses
-        public static final Pose shootPoseRed1 = poseFactory.of(15,58,0);
-        public static final Pose shootPoseRed2 = poseFactory.of(127,58, 180);
-        public static final Pose shootPoseBlue1 = poseFactory.of(15,84, 0);
-        public static final Pose shootPoseBlue2 = poseFactory.of(127,84,180);
+        public static final Pose shootPoseRed1 = poseFactory.of(57.5,8.5,90);
+        public static final Pose shootPoseRed2 = poseFactory.of(57.5,132, 180);
+        public static final Pose shootPoseBlue1 = poseFactory.of(84,8.5, 0);
+        public static final Pose shootPoseBlue2 = poseFactory.of(84,133,180);
 
 
         public static final Pose[] redShootPoses = {
@@ -156,10 +156,10 @@ public class RobotConstants {
                 shootPoseBlue1,shootPoseBlue2};
 
 
-        public static final Pose hivePoseRed1 = new Pose(58,58);
-        public static final Pose hivePoseRed2 = new Pose(84,58);
-        public static final Pose hivePoseBlue1 = new Pose(58,84);
-        public static final Pose hivePoseBlue2 = new Pose(84,84);
+        public static final Pose hivePoseRed1 = new Pose(57.5,55);
+        public static final Pose hivePoseRed2 = new Pose(57.5,87);
+        public static final Pose hivePoseBlue1 = new Pose(84,55);
+        public static final Pose hivePoseBlue2 = new Pose(84,87);
 
         public static final Pose[] redHivePoses = {
                 hivePoseRed1,
