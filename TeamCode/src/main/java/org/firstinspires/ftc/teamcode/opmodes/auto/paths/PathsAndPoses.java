@@ -60,7 +60,7 @@ public class PathsAndPoses {
     private final Pose gardenToShoot2Segment1Heading = poseFactory.of(60, 133, 270);
     private final Pose gardenToShoot2Segment2Start = poseFactory.of(60, 133, -90);
     private final Pose gardenToShoot2Segment2End = poseFactory.of(60, 133, 90);
-    private final Pose parkFar = poseFactory.of(10, 118, 90);
+    private final Pose parkFar = poseFactory.of(14, 118, 90);
     private final Pose shoot2ToParkControl1 = poseFactory.of(63, 115, 0);
 
     public Path startToGardenLineup() {
