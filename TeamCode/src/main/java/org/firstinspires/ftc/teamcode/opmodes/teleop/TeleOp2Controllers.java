@@ -41,7 +41,7 @@ public class TeleOp2Controllers extends NextOpMode {
 
         // Reset Heading
 //        gp2.start().or(gp2.triangle()).onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
-        gp2.start().onTrue(instant(() -> robot.getFollower().setPose(PathsAndPoses.againstWallByUpwardsFacingStartingHive)));
+        gp2.start().and(gp2.back()).onTrue(instant(() -> robot.getFollower().setPose(PathsAndPoses.startFacingUpHive)));
 //      -------- Gamepad 1 & 2 --------
 
 // The UH-OH something got stuck.™ Rotates everything backward while the back button is being held

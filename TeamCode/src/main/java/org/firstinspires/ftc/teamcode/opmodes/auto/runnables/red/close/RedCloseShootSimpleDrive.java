@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.auto.runnables.red;
+package org.firstinspires.ftc.teamcode.opmodes.auto.runnables.red.close;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.ivy.Command;
@@ -12,8 +12,8 @@ import dev.nextftc.robot.opmode.NextAutonomous;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextAutonomous(name = "RedAuto")
-public class StupidRedAuto extends NextOpMode {
+@NextAutonomous(name = "RedCloseShootSimpleDrive")
+public class RedCloseShootSimpleDrive extends NextOpMode {
 
     private final ZeliaRobot robot;
     private Routines routines;
@@ -21,7 +21,7 @@ public class StupidRedAuto extends NextOpMode {
 
     private Command autoRoutine;
 
-    public StupidRedAuto(ZeliaRobot robot){
+    public RedCloseShootSimpleDrive(ZeliaRobot robot){
         super(robot);
         this.robot = robot;
         robot.setAlliance(Alliance.RED);

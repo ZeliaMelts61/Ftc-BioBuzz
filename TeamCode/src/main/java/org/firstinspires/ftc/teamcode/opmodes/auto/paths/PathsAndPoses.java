@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.data.Alliance;
 
 
 public class PathsAndPoses {
-    private final PoseFactory poseFactory = PoseFactory.degrees();
+    private static final PoseFactory poseFactory = PoseFactory.degrees();
     public PoseFactory getPoseFactory(){
         return poseFactory;
     }
@@ -31,7 +31,7 @@ public class PathsAndPoses {
     }
 
     // start close shoot to park
-    public final Pose startFacingUpHive = poseFactory.of(59, 8.5, 90);
+    public static final Pose startFacingUpHive = poseFactory.of(59, 8.5, 90);
     private final Pose parkClose = poseFactory.of(10, 95.5, 270);
     private final Pose startShootToParkControl1 = poseFactory.of(23, 15, 0);
 
@@ -41,7 +41,7 @@ public class PathsAndPoses {
 
 
     // from wait shoot to park
-    public final Pose startFacingDownHive = poseFactory.of(57.5, 134, 90);
+    public static final Pose startFacingDownHive = poseFactory.of(57.5, 134, 90);
     private final Pose waitShootPark = poseFactory.of(9, 118, 90);
     private final Pose waitShootParkControl1 = poseFactory.of(58, 115, 0);
 

@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto.commands;
 
-import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.commands.Commands.waitMs;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
 import com.pedropathing.ivy.Command;
-import com.pedropathing.ivy.commands.Commands;
 
 import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
 import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
 
 public class Routines {
-    private ZeliaRobot robot;
+    private final ZeliaRobot robot;
     private final PathsAndPoses paths;
     private final AutoCommands commands;
 
@@ -21,8 +19,27 @@ public class Routines {
         this.commands = new AutoCommands(robot, paths);
     }
 
+    public Command simpleShootDrive(){
+        robot.getFollower().setPose(PathsAndPoses.startFacingUpHive);
+        return sequential(
+                commands.timedShoot(15000),
+                robot.getDrivetrain().manualArcadeCommand(()->-0.5,()->0)
+                        .raceWith(waitMs(2000))
+        );
+    }
+
+    public Command waitSimpleShootDrive(){
+        robot.getFollower().setPose(PathsAndPoses.startFacingDownHive);
+        return sequential(
+                waitMs(10000),
+                commands.timedShoot(15000),
+                robot.getDrivetrain().manualArcadeCommand(()->-0.5,()->0)
+                        .raceWith(waitMs(2000))
+        );
+    }
+
     public Command shootPark(){
-        robot.getFollower().setPose(paths.startFacingUpHive);
+        robot.getFollower().setPose(PathsAndPoses.startFacingUpHive);
         return sequential(
                 commands.timedShoot(10000),
                 commands.followPath(paths.startShootToPark())
@@ -30,7 +47,7 @@ public class Routines {
     }
 
     public Command shootPickup() {
-        robot.getFollower().setPose(paths.startFacingUpHive);
+        robot.getFollower().setPose(PathsAndPoses.startFacingUpHive);
         return sequential(
                 commands.timedShoot(10000),
                 commands.followPath(paths.startToGardenLineup()),
@@ -40,7 +57,7 @@ public class Routines {
     }
 
     public Command shootPickupPark(){
-        robot.getFollower().setPose(paths.startFacingUpHive);
+        robot.getFollower().setPose(PathsAndPoses.startFacingUpHive);
         return sequential(
                 commands.timedShoot(10000),
                 commands.followPath(paths.startToGardenLineup()),
@@ -51,7 +68,7 @@ public class Routines {
     }
 
     public Command full2CycleAuto() {
-        robot.getFollower().setPose(paths.startFacingUpHive);
+        robot.getFollower().setPose(PathsAndPoses.startFacingUpHive);
         return sequential(
                 commands.timedShoot(5000),
                 commands.followPath(paths.startToGardenLineup()),
@@ -65,7 +82,7 @@ public class Routines {
     }
 
     public Command waitFarShootPark(){
-        robot.getFollower().setPose(paths.startFacingDownHive);
+        robot.getFollower().setPose(PathsAndPoses.startFacingDownHive);
         return sequential(
                 waitMs(8000),
                 robot.setupShoot(),
@@ -76,7 +93,7 @@ public class Routines {
     }
 
     public Command waitFarShootPickup(){
-        robot.getFollower().setPose(paths.startFacingDownHive);
+        robot.getFollower().setPose(PathsAndPoses.startFacingDownHive);
         return sequential(
                 waitMs(8000),
                 robot.setupShoot(),
@@ -89,7 +106,7 @@ public class Routines {
     }
 
     public Command waitFarShootPickupPark(){
-        robot.getFollower().setPose(paths.startFacingDownHive);
+        robot.getFollower().setPose(PathsAndPoses.startFacingDownHive);
         return sequential(
                 waitMs(8000),
                 robot.setupShoot(),

@@ -111,7 +111,7 @@ public class ZeliaRobot implements NextRobot {
     public Follower getFollower() {
         if (follower == null) {
             follower = Constants.create(dev.nextftc.hardware.RobotController.hardwareMap());
-            follower.setPose(new Pose(0, 0, 0));
+            follower.setPose(PathsAndPoses.startFacingUpHive);
             drivetrain.setFollower(follower);
         }
 
@@ -136,7 +136,7 @@ public class ZeliaRobot implements NextRobot {
             infinite(this::loop)
         );
         telemetryTimer.reset();
-        follower.setPose(PathsAndPoses.againstWallByUpwardsFacingStartingHive);
+
 
 
     }

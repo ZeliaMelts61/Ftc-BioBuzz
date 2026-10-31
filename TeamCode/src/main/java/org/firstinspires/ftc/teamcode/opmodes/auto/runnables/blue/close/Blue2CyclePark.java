@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.teamcode.opmodes.auto.runnables;
+package org.firstinspires.ftc.teamcode.opmodes.auto.runnables.blue.close;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
-import com.pedropathing.ivy.commands.Commands;
 
 import org.firstinspires.ftc.teamcode.data.Alliance;
 import org.firstinspires.ftc.teamcode.opmodes.auto.commands.Routines;
@@ -13,8 +12,8 @@ import dev.nextftc.robot.opmode.NextAutonomous;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextAutonomous(name = "RedAutoShootParkAndWait")
-public class NotStupidRedAutoWait extends NextOpMode {
+@NextAutonomous(name = "Blue2CyclePark")
+public class Blue2CyclePark extends NextOpMode {
 
     private final ZeliaRobot robot;
     private Routines routines;
@@ -22,10 +21,10 @@ public class NotStupidRedAutoWait extends NextOpMode {
 
     private Command autoRoutine;
 
-    public NotStupidRedAutoWait(ZeliaRobot robot){
+    public Blue2CyclePark(ZeliaRobot robot){
         super(robot);
         this.robot = robot;
-        robot.setAlliance(Alliance.RED);
+        robot.setAlliance(Alliance.BLUE);
         Scheduler.reset();
     }
 
@@ -35,7 +34,8 @@ public class NotStupidRedAutoWait extends NextOpMode {
         robot.init();
 
         routines = new Routines(robot);
-        autoRoutine = routines.autoDrivePark();
+
+        autoRoutine = routines.full2CycleAuto();
         autoRoutine.schedule(); // Make sure you schedule it
     }
 

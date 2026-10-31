@@ -1,11 +1,8 @@
-package org.firstinspires.ftc.teamcode.opmodes.auto.runnables.blue;
-
-import static com.pedropathing.ivy.commands.Commands.instant;
+package org.firstinspires.ftc.teamcode.opmodes.auto.runnables.red.close;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.data.Alliance;
 import org.firstinspires.ftc.teamcode.opmodes.auto.commands.Routines;
@@ -15,8 +12,8 @@ import dev.nextftc.robot.opmode.NextAutonomous;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextAutonomous(name = "BlueAutoShootPark", preselectTeleop = "USE THIS FOR 2 CONTROLLERS")
-public class NotStupidBlueAuto extends NextOpMode {
+@NextAutonomous(name = "Red2CyclePark")
+public class Red2CyclePark extends NextOpMode {
 
     private final ZeliaRobot robot;
     private Routines routines;
@@ -24,10 +21,10 @@ public class NotStupidBlueAuto extends NextOpMode {
 
     private Command autoRoutine;
 
-    public NotStupidBlueAuto(ZeliaRobot robot){
+    public Red2CyclePark(ZeliaRobot robot){
         super(robot);
         this.robot = robot;
-        robot.setAlliance(Alliance.BLUE);
+        robot.setAlliance(Alliance.RED);
         Scheduler.reset();
     }
 
@@ -38,7 +35,7 @@ public class NotStupidBlueAuto extends NextOpMode {
 
         routines = new Routines(robot);
 
-        autoRoutine = routines.autoDrivePark();
+        autoRoutine = routines.full2CycleAuto();
         autoRoutine.schedule(); // Make sure you schedule it
     }
 
