@@ -7,11 +7,9 @@ import com.pedropathing.tuning.autotune.Inputs;
 import com.pedropathing.tuning.autotune.Procedure;
 import com.pedropathing.tuning.autotune.TuningOpMode;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import java.util.List;
-import java.util.OptionalDouble;
+import java.util.*;
 
 public class PinpointTuner extends Procedure {
     enum PodType {
@@ -86,7 +84,7 @@ class PinpointCustomPodScalar extends TuningOpMode<Double> {
     }
 
     @Override
-    protected Double runTuningOpMode() {
+    protected Double runTuningOpMode() throws InterruptedException {
         PinpointConfig config = new PinpointConfig(c -> {
             c.name.set(name);
             c.ticksPerUnit.set(OptionalDouble.of(1.0));
@@ -97,7 +95,10 @@ class PinpointCustomPodScalar extends TuningOpMode<Double> {
         });
         PinpointLocalizer localizer = new PinpointLocalizer(hardwareMap, config);
         localizer.setPose(new Pose(0, 0));
+        Thread.sleep(1000);
         waitForStart();
+        localizer.setPose(Pose.zero());
+        localizer.update();
         while (!isStopRequested()) {
             localizer.update();
         }
@@ -121,7 +122,7 @@ class PinpointForwardDirection extends TuningOpMode<Boolean> {
     }
 
     @Override
-    protected Boolean runTuningOpMode() {
+    protected Boolean runTuningOpMode() throws InterruptedException {
         PinpointConfig config = new PinpointConfig(c -> {
             c.name.set(name);
             c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
@@ -137,13 +138,22 @@ class PinpointForwardDirection extends TuningOpMode<Boolean> {
         });
         PinpointLocalizer localizer = new PinpointLocalizer(hardwareMap, config);
         localizer.setPose(new Pose(0, 0));
+        Thread.sleep(1000);
         waitForStart();
+        localizer.setPose(Pose.zero());
+        localizer.update();
 
+        // Keep the last reading taken before Stop. After Stop the Pinpoint reports a reset
+        // pose (x = 0), so reading it afterwards always returns false (not reversed).
+        double x = 0;
         while (!isStopRequested()) {
             localizer.update();
+            if (!isStopRequested()) {
+                x = localizer.pose().x();
+            }
         }
 
-        return localizer.pose().x() < 0;
+        return x < 0;
     }
 }
 
@@ -163,7 +173,7 @@ class PinpointStrafeDirection extends TuningOpMode<Boolean> {
     }
 
     @Override
-    protected Boolean runTuningOpMode() {
+    protected Boolean runTuningOpMode() throws InterruptedException {
         PinpointConfig config = new PinpointConfig(c -> {
             c.name.set(name);
             c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
@@ -179,12 +189,21 @@ class PinpointStrafeDirection extends TuningOpMode<Boolean> {
         });
         PinpointLocalizer localizer = new PinpointLocalizer(hardwareMap, config);
         localizer.setPose(new Pose(0, 0));
+        Thread.sleep(1000);
         waitForStart();
+        localizer.setPose(Pose.zero());
+        localizer.update();
+        // Keep the last reading taken before Stop. After Stop the Pinpoint reports a reset
+        // pose (y = 0), so reading it afterwards always returns false (not reversed).
+        double y = 0;
         while (!isStopRequested()) {
             localizer.update();
+            if (!isStopRequested()) {
+                y = localizer.pose().y();
+            }
         }
 
-        return localizer.pose().y() < 0;
+        return y < 0;
     }
 }
 
@@ -210,7 +229,7 @@ class PinpointOffsets extends TuningOpMode<List<Double>> {
     }
 
     @Override
-    protected List<Double> runTuningOpMode() {
+    protected List<Double> runTuningOpMode() throws InterruptedException {
         PinpointConfig config = new PinpointConfig(c -> {
             c.name.set(name);
             c.xPodDirection.set(forwardPodReversed ? GoBildaPinpointDriver.EncoderDirection.REVERSED : GoBildaPinpointDriver.EncoderDirection.FORWARD);
@@ -235,7 +254,10 @@ class PinpointOffsets extends TuningOpMode<List<Double>> {
         localizer.update();
 
 
+        Thread.sleep(1000);
         waitForStart();
+        localizer.setPose(Pose.zero());
+        localizer.update();
 
         localizer.setPose(Pose.zero());
 
