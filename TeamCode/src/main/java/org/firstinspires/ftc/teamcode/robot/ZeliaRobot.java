@@ -26,7 +26,8 @@ import dev.nextftc.robot.Mechanism;
 import dev.nextftc.robot.NextRobot;
 import dev.nextftc.robot.Telemetry;
 import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
-import dev.nextftc.robot.triggers.Trigger;
+import org.firstinspires.ftc.teamcode.RobotConstants;
+
 
 /**
  * This is the Zelia Robot (the main robot class).
@@ -242,7 +243,7 @@ public class ZeliaRobot implements NextRobot {
      */
     public Command runShoot(){
         return infinite(()->{
-            flywheel.setVelocityFromDistance(drivetrain.distanceToHive(alliance));
+            flywheel.setTargetRPM(RobotConstants.BackupFlywheelConstants.backupflywheelspeedfixed);
 
             if(flywheel.isReady()) {
                 windmill.forward();

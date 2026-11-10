@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 
 import static com.pedropathing.ivy.commands.Commands.instant;
+import static com.pedropathing.ivy.groups.Groups.parallel;
+import static com.pedropathing.ivy.groups.Groups.sequential;
 
 import com.pedropathing.ivy.Scheduler;
 
@@ -73,8 +75,8 @@ public class TeleOp2Controllers extends NextOpMode {
 
         // Runs the intake backward while D-pad down is held
         gp1.b()
-                .onTrue(robot.getIntake().outtakeCommand())
-                .onFalse(robot.getIntake().stopIntakeCommand());
+                .onTrue(parallel(robot.getIntake().outtakeCommand(), robot.getWindmill().reverseCommand()))
+                .onFalse(sequential(robot.getIntake().stopIntakeCommand(), robot.getWindmill().stopCommand()));
 
         // Runs the windmill backward while D-pad right is held
         gp1.dpadRight()
