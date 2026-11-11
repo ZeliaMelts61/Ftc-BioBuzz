@@ -13,13 +13,17 @@ import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.opmode.NextTeleop;
 import dev.nextftc.robot.triggers.CommandGamepad;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import dev.nextftc.robot.triggers.Trigger;
+import org.firstinspires.ftc.teamcode.mechanisms.touchpad.Touchpad;
 
 @NextTeleop(name = "USE THIS FOR 2 CONTROLLERS")
 public class TeleOp2Controllers extends NextOpMode {
     private final ZeliaRobot robot;
     CommandGamepad gp1;
+    public static Touchpad touchpad;
     CommandGamepad gp2;
+
 
     public TeleOp2Controllers(ZeliaRobot robot) {
         super(robot);
@@ -34,6 +38,7 @@ public class TeleOp2Controllers extends NextOpMode {
 
         if (gp1==null) {gp1=new CommandGamepad(gamepad1);}
         if (gp2==null) {gp2=new CommandGamepad(gamepad2);}
+        if (touchpad==null) {touchpad=new Touchpad(gamepad2);}
 
 
         robot.init(); // MUST CALL BEFORE RUNNING STUFF
