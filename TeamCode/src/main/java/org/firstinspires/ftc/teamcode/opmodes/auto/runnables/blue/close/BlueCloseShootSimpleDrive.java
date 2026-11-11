@@ -12,7 +12,7 @@ import dev.nextftc.robot.opmode.NextAutonomous;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextAutonomous(name = "BlueCloseShootSimpleDrive")
+@NextAutonomous(name = "BlueCloseShootSimpleDrive", group = "Blue Close")
 public class BlueCloseShootSimpleDrive extends NextOpMode {
 
     private final ZeliaRobot robot;

@@ -208,7 +208,9 @@ public class Intake implements Mechanism {
      * @return An instant command that sets the throttle.
      */
     public Command outtakeCommand(){
-        return setIntakeThrottleCommand(-1);
+        return
+            setIntakeThrottleCommand(-1);
+
     }
 
     /**

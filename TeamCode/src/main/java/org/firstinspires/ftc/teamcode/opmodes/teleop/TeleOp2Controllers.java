@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 
 import static com.pedropathing.ivy.commands.Commands.instant;
+import static com.pedropathing.ivy.groups.Groups.parallel;
+import static com.pedropathing.ivy.groups.Groups.sequential;
 
 import com.pedropathing.ivy.Scheduler;
 
@@ -11,13 +13,17 @@ import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.opmode.NextTeleop;
 import dev.nextftc.robot.triggers.CommandGamepad;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import dev.nextftc.robot.triggers.Trigger;
+import org.firstinspires.ftc.teamcode.mechanisms.touchpad.Touchpad;
 
 @NextTeleop(name = "USE THIS FOR 2 CONTROLLERS")
 public class TeleOp2Controllers extends NextOpMode {
     private final ZeliaRobot robot;
     CommandGamepad gp1;
+    public static Touchpad touchpad;
     CommandGamepad gp2;
+
 
     public TeleOp2Controllers(ZeliaRobot robot) {
         super(robot);
@@ -32,6 +38,7 @@ public class TeleOp2Controllers extends NextOpMode {
 
         if (gp1==null) {gp1=new CommandGamepad(gamepad1);}
         if (gp2==null) {gp2=new CommandGamepad(gamepad2);}
+        if (touchpad==null) {touchpad=new Touchpad(gamepad2);}
 
 
         robot.init(); // MUST CALL BEFORE RUNNING STUFF
@@ -73,8 +80,8 @@ public class TeleOp2Controllers extends NextOpMode {
 
         // Runs the intake backward while D-pad down is held
         gp1.b()
-                .onTrue(robot.getIntake().outtakeCommand())
-                .onFalse(robot.getIntake().stopIntakeCommand());
+                .onTrue(parallel(robot.getIntake().outtakeCommand(), robot.getWindmill().reverseCommand()))
+                .onFalse(sequential(robot.getIntake().stopIntakeCommand(), robot.getWindmill().stopCommand()));
 
         // Runs the windmill backward while D-pad right is held
         gp1.dpadRight()

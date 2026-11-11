@@ -99,6 +99,7 @@ public class RobotConstants {
         // THIS SHOULD NEVER BE ON BRAKE THAT'S HOW YOU DESTROY STUFF
         public static final DcMotorEx.ZeroPowerBehavior flywheelZeroPowerBehavior = DcMotorEx.ZeroPowerBehavior.FLOAT;
 
+        public static final int backupflywheelspeedfixed = 2700;
 
         public static final double
                 kP = 40, // pulled from sample code

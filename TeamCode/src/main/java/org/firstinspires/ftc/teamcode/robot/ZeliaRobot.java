@@ -5,6 +5,7 @@ import static com.pedropathing.ivy.groups.Groups.parallel;
 import static com.pedropathing.ivy.groups.Groups.race;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
+import static org.firstinspires.ftc.teamcode.opmodes.teleop.TeleOp2Controllers.touchpad;
 import static java.lang.Math.atan2;
 import androidx.annotation.NonNull;
 import java.util.Set;
@@ -19,6 +20,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.mechanisms.*;
+import org.firstinspires.ftc.teamcode.mechanisms.touchpad.Touchpad;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 import org.firstinspires.ftc.teamcode.data.Alliance;
@@ -26,7 +28,9 @@ import dev.nextftc.robot.Mechanism;
 import dev.nextftc.robot.NextRobot;
 import dev.nextftc.robot.Telemetry;
 import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
-import dev.nextftc.robot.triggers.Trigger;
+import org.firstinspires.ftc.teamcode.RobotConstants;
+import org.firstinspires.ftc.teamcode.opmodes.teleop.TeleOp2Controllers;
+
 
 /**
  * This is the Zelia Robot (the main robot class).
@@ -164,6 +168,12 @@ public class ZeliaRobot implements NextRobot {
         Telemetry.log("Intake Left Servo Throttle", intake.getLeftServoThrottle());
         Telemetry.log("Intake Right Servo Throttle", intake.getRightServoThrottle());
         Telemetry.log("");
+        if (touchpad != null) {
+            Telemetry.log("Touchpad X", touchpad.x.getValue());
+            Telemetry.log("Touchpad Y", touchpad.y.getValue());
+            Telemetry.log("Touchpad Click", touchpad.click.getAsBoolean());
+        }
+        Telemetry.log("");
         Telemetry.log("Flywheel Velocity (RPM)", flywheel.getCurrentRPM());
         Telemetry.log("Flywheel Target Velocity (RPM)", flywheel.getTargetRPM());
         Telemetry.log("Flywheel Velocity Error (RPM)", flywheel.getCurrentRPM() - flywheel.getTargetRPM());
@@ -215,7 +225,14 @@ public class ZeliaRobot implements NextRobot {
                 ()->driveGamepad.right_stick_x));
         drivetrain.getDefaultCommand().schedule();
     }
-
+    public void startDriveTouchpad(Touchpad driveTouchpad, Gamepad driveGamepad){
+        drivetrain.setDefaultCommand(
+                drivetrain.manualFieldOrientedCommand(
+                        ()->driveTouchpad.y.getValue(),
+                        ()->driveTouchpad.x.getValue(),
+                        ()->driveGamepad.left_stick_x));
+        drivetrain.getDefaultCommand().schedule();
+    }
     /**
      * Returns a command that prepares the robot to shoot.
      * It stops the windmill, sets the intake to half power, and sets the
@@ -242,7 +259,7 @@ public class ZeliaRobot implements NextRobot {
      */
     public Command runShoot(){
         return infinite(()->{
-            flywheel.setVelocityFromDistance(drivetrain.distanceToHive(alliance));
+            flywheel.setTargetRPM(RobotConstants.BackupFlywheelConstants.backupflywheelspeedfixed);
 
             if(flywheel.isReady()) {
                 windmill.forward();

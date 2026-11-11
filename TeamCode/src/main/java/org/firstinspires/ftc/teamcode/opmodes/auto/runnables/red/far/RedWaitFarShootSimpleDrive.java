@@ -12,7 +12,7 @@ import dev.nextftc.robot.opmode.NextAutonomous;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextAutonomous(name = "RedWaitFarShootSimpleDrive")
+@NextAutonomous(name = "RedWaitFarShootSimpleDrive", group = "Red Far")
 public class RedWaitFarShootSimpleDrive extends NextOpMode {
 
     private final ZeliaRobot robot;

@@ -12,7 +12,7 @@ import dev.nextftc.robot.opmode.NextAutonomous;
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextAutonomous(name = "Blue2CyclePark")
+@NextAutonomous(name = "Blue2CyclePark", group = "Blue Close")
 public class Blue2CyclePark extends NextOpMode {
 
     private final ZeliaRobot robot;
