@@ -74,7 +74,7 @@ public class Routines {
                 commands.followPathTimeout(paths.startToGardenLineup(),2),
                 commands.intakePathTimeout(paths.gardenPickup(),3),
                 commands.timedIntake(500),
-                commands.followPathTimeout(paths.gardenToShoot2(),3)
+                commands.followPathTimeout(paths.gardenToShoot2(),5)
                         .with(robot.setupShoot()),
                 commands.timedShoot(5000),
                 commands.intakePathTimeout(paths.shoot2ToPark(),4)

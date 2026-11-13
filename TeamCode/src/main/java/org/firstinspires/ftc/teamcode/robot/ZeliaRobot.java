@@ -225,7 +225,7 @@ public class ZeliaRobot implements NextRobot {
     }
     public void startDriveRobotOriented(Gamepad driveGamepad){
         drivetrain.setDefaultCommand(
-                drivetrain.manualFieldOrientedCommand(
+                drivetrain.manualRobotOrientedCommand(
                         ()->driveGamepad.left_stick_y,
                         ()->driveGamepad.left_stick_x,
                         ()->driveGamepad.right_stick_x));
