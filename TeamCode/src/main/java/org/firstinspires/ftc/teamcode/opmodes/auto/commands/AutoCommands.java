@@ -38,12 +38,22 @@ public class AutoCommands {
     public Command followPath(Path path){
         return robot.getDrivetrain().followPathCommand(path);
     }
+    public Command followPathTimeout(Path path, double timeout){
+        return robot.getDrivetrain().followPathCommand(path).raceWith(waitMs(timeout*1000));
+    }
 
     public Command intakePath(Path path){
         return sequential(
             robot.getIntake().intakeCommand(),
             followPath(path),
             robot.getIntake().stopIntakeCommand()
+        );
+    }
+    public Command intakePathTimeout(Path path, double timeout){
+        return sequential(
+                robot.getIntake().intakeCommand(),
+                followPath(path).raceWith(waitMs(timeout*1000)),
+                robot.getIntake().stopIntakeCommand()
         );
     }
 

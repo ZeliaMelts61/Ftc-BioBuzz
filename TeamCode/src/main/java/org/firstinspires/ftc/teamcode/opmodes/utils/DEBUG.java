@@ -50,7 +50,7 @@ public class DEBUG extends NextOpMode {
 
 
         robot.init(); // MUST CALL BEFORE RUNNING STUFF
-        robot.startDrive(gamepad1);
+        robot.startDriveRobotOriented(gamepad1);
 
         gp2.dpadRight()
                 .onTrue(robot.getIntake().setRightServoThrottleCommand(1))

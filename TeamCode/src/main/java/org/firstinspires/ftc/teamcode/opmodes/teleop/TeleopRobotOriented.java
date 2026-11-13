@@ -7,7 +7,6 @@ import static com.pedropathing.ivy.groups.Groups.sequential;
 
 import com.pedropathing.ivy.Scheduler;
 
-import org.firstinspires.ftc.teamcode.data.Alliance;
 import org.firstinspires.ftc.teamcode.mechanisms.touchpad.Touchpad;
 import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
 import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
@@ -17,15 +16,15 @@ import dev.nextftc.robot.opmode.NextTeleop;
 import dev.nextftc.robot.triggers.CommandGamepad;
 import dev.nextftc.robot.triggers.Trigger;
 
-@NextTeleop(name = "this is for touchpad drive")
-public class DriveWithGamepad extends NextOpMode {
+@NextTeleop(name = "2 Controllers - Robot Oriented", group = "Joysticks")
+public class TeleopRobotOriented extends NextOpMode {
     private final ZeliaRobot robot;
     CommandGamepad gp1;
     public static Touchpad touchpad;
     CommandGamepad gp2;
 
 
-    public DriveWithGamepad(ZeliaRobot robot) {
+    public TeleopRobotOriented(ZeliaRobot robot) {
         super(robot);
         this.robot = robot;
         Scheduler.reset();
@@ -42,19 +41,13 @@ public class DriveWithGamepad extends NextOpMode {
 
 
         robot.init(); // MUST CALL BEFORE RUNNING STUFF
-        if (robot.getAlliance() == Alliance.RED) {
-            robot.getDrivetrain().setDriverHeadingOffset(Math.toRadians(270));
-        }
-        else{
-            robot.getDrivetrain().setDriverHeadingOffset(Math.toRadians(90));
-        }
 
 //      ---------- Gamepad 2 ----------
-        robot.startDriveTouchpad(touchpad, gamepad2);
+        robot.startDriveFieldOriented(gamepad2);
 
         // Reset Heading
 //        gp2.start().or(gp2.triangle()).onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
-        gp2.start().and(gp2.back()).onTrue(instant(() -> robot.getFollower().setPose(PathsAndPoses.startFacingUpHive)));
+        gp2.back().onTrue(instant(() -> robot.getFollower().setPose(PathsAndPoses.startFacingUpHive)));
 //      -------- Gamepad 1 & 2 --------
 
 // The UH-OH something got stuck.™ Rotates everything backward while the back button is being held

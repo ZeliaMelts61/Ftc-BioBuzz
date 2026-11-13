@@ -71,13 +71,13 @@ public class Routines {
         robot.getFollower().setPose(PathsAndPoses.startFacingUpHive);
         return sequential(
                 commands.timedShoot(5000),
-                commands.followPath(paths.startToGardenLineup()),
-                commands.intakePath(paths.gardenPickup()),
+                commands.followPathTimeout(paths.startToGardenLineup(),2),
+                commands.intakePathTimeout(paths.gardenPickup(),3),
                 commands.timedIntake(500),
-                commands.followPath(paths.gardenToShoot2())
+                commands.followPathTimeout(paths.gardenToShoot2(),3)
                         .with(robot.setupShoot()),
                 commands.timedShoot(5000),
-                commands.intakePath(paths.shoot2ToPark())
+                commands.intakePathTimeout(paths.shoot2ToPark(),4)
         );
     }
 

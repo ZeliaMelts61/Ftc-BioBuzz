@@ -5,7 +5,7 @@ import static com.pedropathing.ivy.groups.Groups.parallel;
 import static com.pedropathing.ivy.groups.Groups.race;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 
-import static org.firstinspires.ftc.teamcode.opmodes.teleop.TeleOp2Controllers.touchpad;
+import static org.firstinspires.ftc.teamcode.opmodes.teleop.TeleopFieldOriented.touchpad;
 import static java.lang.Math.atan2;
 import androidx.annotation.NonNull;
 import java.util.Set;
@@ -28,8 +28,6 @@ import dev.nextftc.robot.Mechanism;
 import dev.nextftc.robot.NextRobot;
 import dev.nextftc.robot.Telemetry;
 import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
-import org.firstinspires.ftc.teamcode.RobotConstants;
-import org.firstinspires.ftc.teamcode.opmodes.teleop.TeleOp2Controllers;
 
 
 /**
@@ -217,12 +215,20 @@ public class ZeliaRobot implements NextRobot {
      * Sets the default drivetrain command to manual field oriented drive.
      * @param driveGamepad The gamepad that will be driving the robot.
      */
-    public void startDrive(Gamepad driveGamepad){
+    public void startDriveFieldOriented(Gamepad driveGamepad){
         drivetrain.setDefaultCommand(
-            drivetrain.manualRobotOrientedCommand(
+            drivetrain.manualFieldOrientedCommand(
                 ()->driveGamepad.left_stick_y,
-                ()->driveGamepad.left_stick_x,
-                ()->driveGamepad.right_stick_x));
+                ()->-driveGamepad.left_stick_x,
+                ()->-driveGamepad.right_stick_x));
+        drivetrain.getDefaultCommand().schedule();
+    }
+    public void startDriveRobotOriented(Gamepad driveGamepad){
+        drivetrain.setDefaultCommand(
+                drivetrain.manualFieldOrientedCommand(
+                        ()->driveGamepad.left_stick_y,
+                        ()->driveGamepad.left_stick_x,
+                        ()->driveGamepad.right_stick_x));
         drivetrain.getDefaultCommand().schedule();
     }
     public void startDriveTouchpad(Touchpad driveTouchpad, Gamepad driveGamepad){

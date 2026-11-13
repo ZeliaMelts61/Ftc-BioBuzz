@@ -35,7 +35,7 @@ public class Teleop extends NextOpMode {
 
         robot.init(); // MUST CALL BEFORE RUNNING STUFF
 
-        robot.startDrive(gamepad1);
+        robot.startDriveRobotOriented(gamepad1);
 
         // Reset Heading
         gp1.start().or(gp1.triangle()).onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));

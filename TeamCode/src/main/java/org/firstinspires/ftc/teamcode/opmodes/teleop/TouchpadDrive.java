@@ -7,25 +7,25 @@ import static com.pedropathing.ivy.groups.Groups.sequential;
 
 import com.pedropathing.ivy.Scheduler;
 
-import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
+import org.firstinspires.ftc.teamcode.data.Alliance;
+import org.firstinspires.ftc.teamcode.mechanisms.touchpad.Touchpad;
 import org.firstinspires.ftc.teamcode.opmodes.auto.paths.PathsAndPoses;
+import org.firstinspires.ftc.teamcode.robot.ZeliaRobot;
 
 import dev.nextftc.robot.opmode.NextOpMode;
 import dev.nextftc.robot.opmode.NextTeleop;
 import dev.nextftc.robot.triggers.CommandGamepad;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import dev.nextftc.robot.triggers.Trigger;
-import org.firstinspires.ftc.teamcode.mechanisms.touchpad.Touchpad;
 
-@NextTeleop(name = "USE THIS FOR 2 CONTROLLERS")
-public class TeleOp2Controllers extends NextOpMode {
+@NextTeleop(name = "Touchpad Drive", group = "Touch")
+public class TouchpadDrive extends NextOpMode {
     private final ZeliaRobot robot;
     CommandGamepad gp1;
     public static Touchpad touchpad;
     CommandGamepad gp2;
 
 
-    public TeleOp2Controllers(ZeliaRobot robot) {
+    public TouchpadDrive(ZeliaRobot robot) {
         super(robot);
         this.robot = robot;
         Scheduler.reset();
@@ -42,9 +42,15 @@ public class TeleOp2Controllers extends NextOpMode {
 
 
         robot.init(); // MUST CALL BEFORE RUNNING STUFF
+        if (robot.getAlliance() == Alliance.RED) {
+            robot.getDrivetrain().setDriverHeadingOffset(Math.toRadians(180));
+        }
+        else{
+            robot.getDrivetrain().setDriverHeadingOffset(Math.toRadians(0));
+        }
 
 //      ---------- Gamepad 2 ----------
-        robot.startDrive(gamepad2);
+        robot.startDriveTouchpad(touchpad, gamepad2);
 
         // Reset Heading
 //        gp2.start().or(gp2.triangle()).onTrue(instant(()->robot.getFollower().localizer.setHeading(0)));
